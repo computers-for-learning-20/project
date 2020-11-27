@@ -72,8 +72,14 @@ public class SpyBehaviour : MonoBehaviour
             else if (Input.GetButtonDown ("Jump")) {
             anim.SetTrigger ("Jump");
             _rb.AddForce (Vector3.up * jumpVelocity,  ForceMode.Impulse);
+            /*if (Physics.Raycast (transform.position + (Vector3.up * 0.1f), Vector3.down, 
+                                groundDistance, whatIsGround)) {
+            anim.SetBool ("grounded", true);
+            anim.applyRootMotion = true;} */
+            }
+
     
-        }}
+        }
         rot += Input.GetAxis("Horizontal")*rotateSpeed*Time.deltaTime;
         transform.eulerAngles = new Vector3(0, rot, 0);
 

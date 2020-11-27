@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: f6fc61f3f8a8e2a469306d29b65d5c40, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4455514, g: 0.49523014, b: 0.5741284, a: 1}
+  m_IndirectSpecularColor: {r: 0.5646645, g: 0.63544637, b: 0.7246731, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4094,12 +4094,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77c6276b63956c9439d917f842b9eeb0, type: 3}
---- !u!4 &1520275571 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7109598633452893989, guid: b03951acc5f8f418bb0c8574b2a926a3,
-    type: 3}
-  m_PrefabInstance: {fileID: 7287078411248588075}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1520651528 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 462610, guid: d17bc9c1cdef1c5448255edad31c1c61,
@@ -5476,8 +5470,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camOffset: {x: 0, y: 0.8, z: -5}
-  target: {fileID: 1520275571}
-  SmoothFactor: 0.5
 --- !u!1001 &2045107676
 PrefabInstance:
   m_ObjectHideFlags: 0
