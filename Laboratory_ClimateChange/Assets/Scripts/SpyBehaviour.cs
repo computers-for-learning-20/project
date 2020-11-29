@@ -39,13 +39,13 @@ public class SpyBehaviour : MonoBehaviour
 
     void Move(){
         if (controller.isGrounded){
-            if(Input.GetKey(KeyCode.W)){
+            if(Input.GetKey(KeyCode.W) || (Input.GetKey(KeyCode.UpArrow))){
                 anim.SetInteger("condition", 1);
                 moveDir = new Vector3(0, 0, 1);
                 moveDir *= moveSpeed;
                 moveDir = transform.TransformDirection(moveDir);
             }
-            else if(Input.GetKeyUp(KeyCode.W)){
+            else if(Input.GetKeyUp(KeyCode.W) || (Input.GetKeyUp(KeyCode.UpArrow))){
                 anim.SetInteger("condition", 0);
                 moveDir = new Vector3(0,0,0);
             }
@@ -59,16 +59,31 @@ public class SpyBehaviour : MonoBehaviour
                 anim.SetInteger("condition", 0);
                 moveDir = new Vector3(0,0,0);
             }
+            else if(Input.GetKey(KeyCode.S) || (Input.GetKey(KeyCode.DownArrow))){
+                anim.SetInteger("condition", -1);
+                moveDir = new Vector3(0, 0, -1);
+                moveDir *= moveSpeed;
+                moveDir = transform.TransformDirection(moveDir);
+            }
+            else if(Input.GetKeyUp(KeyCode.S) || (Input.GetKeyUp(KeyCode.DownArrow))){
+                anim.SetInteger("condition", 0);
+                moveDir = new Vector3(0,0,0);
+            }
             else if (Input.GetButtonDown ("Jump")) {
             anim.SetTrigger ("Jump");
             _rb.AddForce (Vector3.up * jumpVelocity,  ForceMode.Impulse);
-
+            /*if (Physics.Raycast (transform.position + (Vector3.up * 0.1f), Vector3.down, 
+                                groundDistance, whatIsGround)) {
+            anim.SetBool ("grounded", true);
+            anim.applyRootMotion = true;} */
             }
+
+    
         }
         rot += Input.GetAxis("Horizontal")*rotateSpeed*Time.deltaTime;
         transform.eulerAngles = new Vector3(0, rot, 0);
 
-        //moveDir.y -= gravity * Time.deltaTime;
+        moveDir.y -= gravity * Time.deltaTime;
         controller.Move(moveDir*Time.deltaTime);
     }
 
