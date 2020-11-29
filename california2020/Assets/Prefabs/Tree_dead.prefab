@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8169143352259242044}
   - component: {fileID: 188107104051854676}
   - component: {fileID: 1757182564079319299}
+  - component: {fileID: 7565829743270669904}
   m_Layer: 0
   m_Name: Tree_dead
   m_TagString: Untagged
@@ -89,6 +90,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!136 &7565829743270669904
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4430405983017269391}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2
+  m_Height: 15
+  m_Direction: 1
+  m_Center: {x: 0, y: 7, z: 0}
 --- !u!21 &-8844753243814887519
 Material:
   serializedVersion: 6
@@ -113,7 +128,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d7f04660a94e34c88b3e5ce7b3c8f8d6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TranslucencyMap:
@@ -121,8 +136,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AO: 2.4
-    - _BaseLight: 0.35
+    - _AO: 0.6
+    - _BaseLight: 0.55
     - _Cutoff: 0.3
     - _SquashAmount: 1
     m_Colors:
