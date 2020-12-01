@@ -868,6 +868,7 @@ GameObject:
   - component: {fileID: 8141123884581891049}
   - component: {fileID: 5982929688328541130}
   - component: {fileID: 6517472341404455935}
+  - component: {fileID: 6493950368570062878}
   m_Layer: 0
   m_Name: Spy
   m_TagString: Untagged
@@ -927,6 +928,10 @@ MonoBehaviour:
   rot: 0
   gravity: 8
   jumpVelocity: 5
+  groundDistance: 0.3
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!54 &5982929688328541130
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -954,13 +959,27 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 1
-  m_Radius: 0.5
+  m_Height: 1.13
+  m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.58, z: 0}
+  m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!136 &6493950368570062878
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7629536359689989535}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.15
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.57, z: 0}
 --- !u!1 &8295736323933028995
 GameObject:
   m_ObjectHideFlags: 0
