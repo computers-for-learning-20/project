@@ -4,5 +4,29 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/TimeTravelInterface.unity
+    guid: 4d3415519960d4c9296b1ba1bb165447
+  - enabled: 1
+    path: Assets/Scenes/ca2020_lvl1.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/2100places.unity
+    guid: 5e319f7c9b27346beaa928a97e1736d4
+  - enabled: 1
+    path: Assets/Scenes/2020places.unity
+    guid: 801573cbdfcc84873a6a2e6b1cb450b4
+  - enabled: 1
+    path: Assets/Scenes/LAB_selected.unity
+    guid: e1b480e876b934526bb14bc34fd11267
+  - enabled: 1
+    path: Assets/Scenes/LAB_current.unity
+    guid: 82fae83f487394b2db0599d59c6ec734
+  - enabled: 1
+    path: Assets/Scenes/CA_current.unity
+    guid: 07b466e34464449b39b00e4de0120cbe
+  - enabled: 1
+    path: Assets/Scenes/CA_selected.unity
+    guid: ae007b080bd4f4bf3a32d7da034779fe
   m_configObjects: {}

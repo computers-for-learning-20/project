@@ -1,5 +1,9 @@
 sceneSetups:
-- path: Assets/Scenes/ca2020_lvl1.unity
+- path: Assets/Scenes/TimeTravelInterface.unity
   isLoaded: 1
   isActive: 1
+  isSubScene: 0
+- path: Assets/Scenes/2100places.unity
+  isLoaded: 1
+  isActive: 0
   isSubScene: 0
