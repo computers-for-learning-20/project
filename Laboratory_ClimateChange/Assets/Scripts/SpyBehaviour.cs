@@ -14,7 +14,7 @@ public class SpyBehaviour : MonoBehaviour
     CharacterController controller;
     Animator anim;
     public GameBehavior gameManager;
-    //public ParticleSystem FireCollision
+    public ParticleSystem FireCollision;
     private Rigidbody _rb;
 
     // Start is called before the first frame update
@@ -102,7 +102,7 @@ public class SpyBehaviour : MonoBehaviour
         
         if(other.name == "Fire")
         {
-               //FireCollision.Play();
+               FireCollision.Play();
                if(gameManager.HealthSpy <= 1)
             {
                 gameManager.HealthSpy = 0;

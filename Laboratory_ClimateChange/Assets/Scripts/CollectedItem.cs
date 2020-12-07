@@ -5,8 +5,7 @@ using UnityEngine;
 public class CollectedItem : MonoBehaviour
 {
 
-    //public ParticleSystem GoalParticles;
-    //public ParticleSystem GoalCollision;
+    public ParticleSystem ItemCollision;
     public GameBehavior gameManager;
 
     void Start()
@@ -20,15 +19,8 @@ public class CollectedItem : MonoBehaviour
         //Put collision code here
         if (collision.gameObject.name == "Spy")
         {
-            // triggers the burst of white
-            // particles and stops the small yellow ones
-            //GoalCollision.Play();
-            //Destroy(GoalParticles);
-
-            //Update goals colected
-            //gameManager.Goals += 1;
-
-            // removed the collected goal
+            ItemCollision.Play();
+            // removed the collected item
             Destroy(this.transform.gameObject);
         }
     }
