@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpyBehaviour : MonoBehaviour
 {
@@ -94,6 +95,15 @@ public class SpyBehaviour : MonoBehaviour
 
         else if (collision.gameObject.name == "solar_panel"){
             gameManager.SolarPanels +=1;
+        }
+
+        else if (collision.gameObject.name == "door_to_lab")
+        {
+            SceneManager.LoadScene("Lab");
+        }
+        else if (collision.gameObject.name == "door_to_outer")
+        {
+            SceneManager.LoadScene("outer_2100");
         }
     
     }
