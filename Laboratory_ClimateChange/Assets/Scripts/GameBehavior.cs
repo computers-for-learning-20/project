@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class GameBehavior : MonoBehaviour
 {
-    public HealthBar healthBar;
-    public uint maxhealth = 100;
     private uint health_spy = 100;
     public Text labelText;
     public int solar_panels = 2;
@@ -16,11 +14,7 @@ public class GameBehavior : MonoBehaviour
 
     public Slider SpyHealth;
     public Image SpyHealthColor;
-
-    public Color criticalColor;
-    public Color warningColor;
-    public Color okayColor;
-
+    public Gradient gradient;
     private bool winScreenShow = false;
     private bool loseScreenShow = false;
     private uint solar_panel_collected = 0;
@@ -33,6 +27,9 @@ public class GameBehavior : MonoBehaviour
 
     private void Start()
     {
+        SpyHealth.value = health_spy;
+        SpyHealthColor.color = gradient.Evaluate(1f);
+
         if (SceneManager.GetActiveScene().name == "ca2020" ||
             SceneManager.GetActiveScene().name == "outer_2100")
         {
@@ -43,19 +40,17 @@ public class GameBehavior : MonoBehaviour
         labelText.text = string.Format("MISSION TASK :: Find {0} {1} " +
             "and {2} {3}. Avoid the fires", solar_panels, target01,
             batteries, target02);
+        
     }
 
-
-    void Start(){
-        healthBar.SetMaxHealth(maxhealth);
-    }
     public uint HealthSpy
     {
         get { return health_spy; }
         set
         {
             health_spy = value;
-            healthBar.SetHealth(health_spy);
+            SpyHealth.value = health_spy;
+            SpyHealthColor.color = gradient.Evaluate(SpyHealth.normalizedValue);
             if (health_spy <= 0)
             {
                 labelText.text = "Oh no!";
@@ -137,17 +132,6 @@ public class GameBehavior : MonoBehaviour
 
     private void OnGUI()
     {
-        SpyHealth.value = health_spy;
-
-        if (SpyHealth.value >= 75)
-        { SpyHealthColor.color = okayColor; }
-        else if (SpyHealth.value >= 25)
-        { SpyHealthColor.color = warningColor; }
-        else if (SpyHealth.value > 0)
-        { SpyHealthColor.color = criticalColor; }
-        else
-        { loseScreenShow = true; }
-
         InventoryImage = GameObject.Find("Inventory0Image")
             .GetComponent<Image>();
         InventoryLabel = GameObject.Find("Inventory0Text")
