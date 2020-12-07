@@ -2,40 +2,68 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 
 public class GameBehavior : MonoBehaviour
 {
     public HealthBar healthBar;
     public uint maxhealth = 100;
     private uint health_spy = 100;
-    public string labelText = "Collect 2 solar panels and 3 batteries. Avoid the fires";
+    public Text labelText;
     public int solar_panels = 2;
     public int batteries = 3;
+
+    public Slider SpyHealth;
+    public Image SpyHealthColor;
+
+    public Color criticalColor;
+    public Color warningColor;
+    public Color okayColor;
+
     private bool winScreenShow = false;
     private bool loseScreenShow = false;
     private uint solar_panel_collected = 0;
     private uint batteries_collected = 0;
+    private string target01 = "solar panels";
+    private string target02 = "batteries";
+
+    private Text InventoryLabel;
+    private Image InventoryImage;
+
+    private void Start()
+    {
+        if (SceneManager.GetActiveScene().name == "ca2020" ||
+            SceneManager.GetActiveScene().name == "outer_2100")
+        {
+            target01 = "solar panels";
+            target02 = "batteries";
+        }
+
+        labelText.text = string.Format("MISSION TASK :: Find {0} {1} " +
+            "and {2} {3}. Avoid the fires", solar_panels, target01,
+            batteries, target02);
+    }
+
 
     void Start(){
         healthBar.SetMaxHealth(maxhealth);
     }
     public uint HealthSpy
     {
-        
-        get {return health_spy; }
+        get { return health_spy; }
         set
         {
             health_spy = value;
-            Debug.Log(health_spy);
             healthBar.SetHealth(health_spy);
-            if(health_spy <= 0)
+            if (health_spy <= 0)
             {
-                labelText = "Oh no!";
+                labelText.text = "Oh no!";
                 WinOrLoseScreen("lose");
             }
             else
             {
-                labelText = "Ouch!";
+                labelText.text = "Ouch!";
             }
         }
     }
@@ -49,22 +77,26 @@ public class GameBehavior : MonoBehaviour
 
             if (solar_panel_collected == solar_panels)
             {
-                if(batteries_collected == batteries){
-                labelText = "You got all the missing pieces of the time-travel machine";
-                WinOrLoseScreen("win");}
-                else{
-                labelText = string.Format("Nice! You got all the solar panels! \n Only {0} batteries left to find!",
-                    batteries - batteries_collected);
+                if (batteries_collected == batteries) {
+                    labelText.text = "You got all the missing pieces of the "
+                            + "time-travel machine";
+                    WinOrLoseScreen("win"); }
+                else {
+                    labelText.text = string.Format("Nice! You got all " +
+                        "the solar panels!" +
+                        "Only {0} batteries left to find!",
+                        batteries - batteries_collected);
                 }
             }
             else
             {
-             if(batteries_collected == batteries){
-                labelText = "Only 1 solar panel left to find!";}
-                else{
-                labelText = string.Format("Nice! 1 solar panel and {0} batteries left to find!",
-                    batteries - batteries_collected);}
-            }       
+                if (batteries_collected == batteries) {
+                    labelText.text = "Only 1 solar panel left to find!"; }
+                else {
+                    labelText.text = string.Format("Nice! 1 solar panel "
+                        + "and {0} batteries left to find!",
+                        batteries - batteries_collected); }
+            }
 
         }
     }
@@ -78,59 +110,80 @@ public class GameBehavior : MonoBehaviour
 
             if (batteries_collected == batteries)
             {
-                if(solar_panel_collected == solar_panels){
-                labelText = "You got all the missing pieces of the time-travel machine";
-                WinOrLoseScreen("win");}
-                else{
-                labelText = string.Format("Nice! You got all the batteries! \n Only {0} solar panels left to find!",
-                    solar_panels - solar_panel_collected);
+                if (solar_panel_collected == solar_panels) {
+                    labelText.text = "You got all the missing pieces"
+                            + " of the time-travel machine";
+                    WinOrLoseScreen("win"); }
+                else {
+                    labelText.text = string.Format("Nice! You got all"
+                        + "the batteries! Only {0} solar panels left to find!",
+                        solar_panels - solar_panel_collected);
                 }
             }
             else
             {
-             if(solar_panel_collected == solar_panels){
-                labelText = string.Format("Only {0} batteries left to find!", batteries - batteries_collected);}
-                else{
-                labelText = string.Format("Nice! {0} batteries and {1} solar panels left to find!",
-                    batteries - batteries_collected, solar_panels - solar_panel_collected);}
-            }       
+                if (solar_panel_collected == solar_panels) {
+                    labelText.text = string.Format("Only {0} batteries "
+                        + "left to find!", batteries - batteries_collected); }
+                else {
+                    labelText.text = string.Format("Nice! {0} batteries and"
+                        + " {1} solar panels left to find!",
+                        batteries - batteries_collected,
+                        solar_panels - solar_panel_collected); }
+            }
 
         }
     }
 
     private void OnGUI()
     {
-        // adjusting fonts and colors for readablity
-        GUI.skin.label.fontSize = 18;
-        GUI.skin.label.fontStyle = FontStyle.Bold;
-        GUI.skin.box.fontStyle = FontStyle.Normal;
-        GUI.skin.box.fontSize = 18;
-        GUI.skin.button.fontSize = 24;
-        GUI.backgroundColor = new Color(0, 0, 0, 1);
+        SpyHealth.value = health_spy;
 
-        // doubilng GUI boxes because alpha element doesn't
-        // seem to help with opacity and they are hard to read
-        GUI.Box(new Rect(20, 20, 250, 30), "");
-        GUI.Box(new Rect(20, 20, 250, 30),
-            "Spy's Health: " + health_spy);
+        if (SpyHealth.value >= 75)
+        { SpyHealthColor.color = okayColor; }
+        else if (SpyHealth.value >= 25)
+        { SpyHealthColor.color = warningColor; }
+        else if (SpyHealth.value > 0)
+        { SpyHealthColor.color = criticalColor; }
+        else
+        { loseScreenShow = true; }
 
-        GUI.Box(new Rect(20, 55, 250, 30),"");
-        GUI.Box(new Rect(20, 55, 250, 30),
-            "Solar Panel Collected: " + solar_panel_collected);
+        InventoryImage = GameObject.Find("Inventory0Image")
+            .GetComponent<Image>();
+        InventoryLabel = GameObject.Find("Inventory0Text")
+                .GetComponent<Text>();
 
-        GUI.Box(new Rect(20, 80, 250, 30), "");
-        GUI.Box(new Rect(20, 80, 250, 30),
-            "Batteries collected: " + batteries_collected);
+        if (solar_panel_collected > 0)
+        {
+            InventoryImage.enabled = true;
 
-        GUI.contentColor = new Color(0, 0, 0);
+            InventoryLabel.text = string.Format("{0}/{1}",
+                solar_panel_collected, solar_panels);
+        }
+        else
+        {
+            InventoryImage.enabled = false;
+        }
 
-        GUI.Label(new Rect((Screen.width / 2) - 100,
-            Screen.height - 50, 300, 50), labelText);
+        InventoryImage = GameObject.Find("Inventory1Image")
+            .GetComponent<Image>();
+        InventoryLabel = GameObject.Find("Inventory1Text")
+            .GetComponent<Text>();
 
-        GUI.contentColor = new Color(255, 255, 255, 1);
+        if (batteries_collected > 0)
+        {
+            InventoryImage.enabled = true;
+
+            InventoryLabel.text = string.Format("{0}/{1}",
+                batteries_collected, batteries);
+        }
+        else
+        {
+            InventoryImage.enabled = false;
+        }
 
         // Creating win and lose screen buttons
-        if(winScreenShow)
+        if (winScreenShow)
         {
             if (GUI.Button(new Rect(Screen.width / 2 - 250,
                 Screen.height / 2 - 50, 500, 100),
@@ -162,7 +215,7 @@ public class GameBehavior : MonoBehaviour
     {
         // function for choosing which freeze
         // screen button to show
-        if(cond == "win")
+        if (cond == "win")
         {
             winScreenShow = true;
 
@@ -173,6 +226,11 @@ public class GameBehavior : MonoBehaviour
         }
 
         Time.timeScale = 0.0f;
+    }
+
+    public void GoToTimeMachine()
+    {
+        SceneManager.LoadScene("TimeTravelInterface");
     }
 
 }
