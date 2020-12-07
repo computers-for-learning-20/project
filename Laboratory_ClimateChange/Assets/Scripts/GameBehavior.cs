@@ -128,6 +128,7 @@ public class GameBehavior : MonoBehaviour
         else
         {
             InventoryImage.enabled = false;
+            InventoryLabel.text = "";
         }
 
         InventoryImage = GameObject.Find("Inventory1Image")
@@ -151,6 +152,7 @@ public class GameBehavior : MonoBehaviour
         else
         {
             InventoryImage.enabled = false;
+            InventoryLabel.text = "";
         }
 
         // Creating win and lose screen buttons
@@ -164,6 +166,7 @@ public class GameBehavior : MonoBehaviour
             {
                 GoalDict["LastGoal"] += 1;
                 GetMessageText();
+		RestartLevel();
             }
         }
 
@@ -181,6 +184,8 @@ public class GameBehavior : MonoBehaviour
     private void CheckWinCondition()
     {
         // function for advancing the scene
+	GetMessageText();
+
         if (target01_collected >= target01_goal
             && target02_collected >= target02_goal)
         {

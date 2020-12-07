@@ -11279,72 +11279,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 598375703}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &611342371
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 611342374}
-  - component: {fileID: 611342373}
-  - component: {fileID: 611342372}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &611342372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 611342371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &611342373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 611342371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &611342374
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 611342371}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &612402957
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22703,8 +22637,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labelText: {fileID: 2027869821}
-  solar_panels: 2
-  batteries: 3
   SpyHealth: {fileID: 2027869823}
   SpyHealthColor: {fileID: 2027869822}
   gradient:
@@ -22736,6 +22668,13 @@ MonoBehaviour:
     m_Mode: 1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 3
+  target01: solar panels
+  target02: batteries
+  spriteArray:
+  - {fileID: 21300000, guid: 21be2a85e6a704a058fdd57720ee383a, type: 3}
+  - {fileID: 21300000, guid: 056c5cb93b0aa41c29bdfc2598aed525, type: 3}
+  - {fileID: 21300000, guid: c3417132e684543b8bc97dd5f6c0b8a5, type: 3}
+  - {fileID: 21300000, guid: 7ebad10fcb99740918d5d4fef205148e, type: 3}
 --- !u!4 &1241918698
 Transform:
   m_ObjectHideFlags: 0
@@ -32961,6 +32900,11 @@ PrefabInstance:
       propertyPath: ItemCollision
       value: 
       objectReference: {fileID: 462886992}
+    - target: {fileID: 899735685129776368, guid: adcf7178375bc4310a47d7ff5ae63c7a,
+        type: 3}
+      propertyPath: ItemCollision
+      value: 
+      objectReference: {fileID: 462886992}
     - target: {fileID: 1148458585629049190, guid: adcf7178375bc4310a47d7ff5ae63c7a,
         type: 3}
       propertyPath: m_Name
@@ -34398,6 +34342,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 142621010944252371, guid: adcf7178375bc4310a47d7ff5ae63c7a,
+        type: 3}
+      propertyPath: ItemCollision
+      value: 
+      objectReference: {fileID: 529867620}
+    - target: {fileID: 899735685129776368, guid: adcf7178375bc4310a47d7ff5ae63c7a,
         type: 3}
       propertyPath: ItemCollision
       value: 

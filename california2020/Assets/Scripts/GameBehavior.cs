@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -14,10 +14,7 @@ public class GameBehavior : MonoBehaviour
     // Health Related Variables
     public Slider SpyHealth;
     public Image SpyHealthColor;
-
-    public Color criticalColor;
-    public Color warningColor;
-    public Color okayColor;
+    public Gradient gradient;
 
     private uint health_spy = 100;
     private bool winScreenShow = false;
@@ -63,6 +60,8 @@ public class GameBehavior : MonoBehaviour
 
         // Set Prior Health Level
         health_spy = GoalDict["LastHealth"];
+        SpyHealth.value = health_spy;
+        SpyHealthColor.color = gradient.Evaluate(1f);
 
         // Set Mission Reminder Text
         GetMessageText();
@@ -111,17 +110,6 @@ public class GameBehavior : MonoBehaviour
 
     private void OnGUI()
     {
-        SpyHealth.value = health_spy;
-
-        if (SpyHealth.value >= 75)
-        { SpyHealthColor.color = okayColor; }
-        else if (SpyHealth.value >= 25)
-        { SpyHealthColor.color = warningColor; }
-        else if (SpyHealth.value > 0)
-        { SpyHealthColor.color = criticalColor; }
-        else
-        { loseScreenShow = true; }
-
         // Load Inventory
         InventoryImage = GameObject.Find("Inventory0Image")
             .GetComponent<Image>();
@@ -129,7 +117,6 @@ public class GameBehavior : MonoBehaviour
                 .GetComponent<Text>();
 
         InventoryImage.sprite = spriteArray[target01_imageIdx];
-
         
         if (target01_collected > 0)
         {
@@ -141,6 +128,7 @@ public class GameBehavior : MonoBehaviour
         else
         {
             InventoryImage.enabled = false;
+            InventoryLabel.text = "";
         }
 
         InventoryImage = GameObject.Find("Inventory1Image")
@@ -164,6 +152,7 @@ public class GameBehavior : MonoBehaviour
         else
         {
             InventoryImage.enabled = false;
+            InventoryLabel.text = "";
         }
 
         // Creating win and lose screen buttons
@@ -177,6 +166,7 @@ public class GameBehavior : MonoBehaviour
             {
                 GoalDict["LastGoal"] += 1;
                 GetMessageText();
+		RestartLevel();
             }
         }
 
@@ -194,6 +184,8 @@ public class GameBehavior : MonoBehaviour
     private void CheckWinCondition()
     {
         // function for advancing the scene
+	GetMessageText();
+
         if (target01_collected >= target01_goal
             && target02_collected >= target02_goal)
         {
@@ -218,13 +210,16 @@ public class GameBehavior : MonoBehaviour
     // Attribute and Item Inventory Getter/Setters
     // Can we generalize better? We need to know
     // each molecule type separately for the simluator...
+           
     public uint HealthSpy
     {
         get { return health_spy; }
         set
         {
             health_spy = value;
-
+            SpyHealth.value = health_spy;
+            SpyHealthColor.color = gradient
+                .Evaluate(SpyHealth.normalizedValue);
             if (health_spy <= 0)
             {
                 labelText.text = "Oh no!";
