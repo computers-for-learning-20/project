@@ -5,22 +5,29 @@ using UnityEngine.SceneManagement;
 
 public class GameBehavior : MonoBehaviour
 {
+    public HealthBar healthBar;
+    public uint maxhealth = 100;
+    private uint health_spy = 100;
     public string labelText = "Collect 2 solar panels and 3 batteries. Avoid the fires";
     public int solar_panels = 2;
     public int batteries = 3;
     private bool winScreenShow = false;
     private bool loseScreenShow = false;
-    private uint health_spy = 100;
     private uint solar_panel_collected = 0;
     private uint batteries_collected = 0;
 
+    void Start(){
+        healthBar.SetMaxHealth(maxhealth);
+    }
     public uint HealthSpy
     {
+        
         get {return health_spy; }
         set
         {
             health_spy = value;
-
+            Debug.Log(health_spy);
+            healthBar.SetHealth(health_spy);
             if(health_spy <= 0)
             {
                 labelText = "Oh no!";
