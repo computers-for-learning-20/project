@@ -48,7 +48,8 @@ public class SpyBehaviour : MonoBehaviour
                 moveDir *= moveSpeed;
                 moveDir = transform.TransformDirection(moveDir);
             }
-            else if (Input.GetKeyUp(KeyCode.W) || (Input.GetKeyUp(KeyCode.UpArrow)))
+            else if (Input.GetKeyUp(KeyCode.W) ||
+                (Input.GetKeyUp(KeyCode.UpArrow)))
             {
                 anim.SetInteger("condition", 0);
                 moveDir = new Vector3(0, 0, 0);
@@ -65,14 +66,16 @@ public class SpyBehaviour : MonoBehaviour
                 anim.SetInteger("condition", 0);
                 moveDir = new Vector3(0, 0, 0);
             }
-            else if (Input.GetKey(KeyCode.S) || (Input.GetKey(KeyCode.DownArrow)))
+            else if (Input.GetKey(KeyCode.S) ||
+                (Input.GetKey(KeyCode.DownArrow)))
             {
                 anim.SetInteger("condition", -1);
                 moveDir = new Vector3(0, 0, -1);
                 moveDir *= moveSpeed;
                 moveDir = transform.TransformDirection(moveDir);
             }
-            else if (Input.GetKeyUp(KeyCode.S) || (Input.GetKeyUp(KeyCode.DownArrow)))
+            else if (Input.GetKeyUp(KeyCode.S) ||
+                (Input.GetKeyUp(KeyCode.DownArrow)))
             {
                 anim.SetInteger("condition", 0);
                 moveDir = new Vector3(0, 0, 0);
@@ -81,8 +84,9 @@ public class SpyBehaviour : MonoBehaviour
             {
                 anim.SetTrigger("Jump");
                 _rb.AddForce(Vector3.up * jumpVelocity, ForceMode.Impulse);
-                /*if (Physics.Raycast (transform.position + (Vector3.up * 0.1f), Vector3.down, 
-                                    groundDistance, whatIsGround)) {
+                /*if (Physics.Raycast (transform.position + (Vector3.up * 0.1f),
+                    Vector3.down, 
+                    groundDistance, whatIsGround)) {
                 anim.SetBool ("grounded", true);
                 anim.applyRootMotion = true;} */
             }

@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class TimeMachineBehavior : MonoBehaviour
 {
-    protected string CurrentYear = "2100";
-    protected string CurrentPlace = "LAB";
+    private string CurrentYear = "2100";
+    private string CurrentPlace = "LAB";
 
     public Text PlaceDisplay;
     public Text YearDisplay;
@@ -28,6 +28,18 @@ public class TimeMachineBehavior : MonoBehaviour
 
     public Canvas ui;
     public GameObject screen;
+
+    public string Now
+    {
+        get { return CurrentYear; }
+        set { CurrentYear = value; }
+    }
+
+    public string Here
+    {
+        get { return CurrentPlace; }
+        set { CurrentPlace = value; }
+    }
 
     // Use this for initialization
     void Start()

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,10 +8,10 @@ using UnityEngine.UI;
 
 public class GameBehavior : MonoBehaviour
 {
+    // UI Panel Message Text
     public Text labelText;
-    public int solar_panels = 2;
-    public int batteries = 3;
 
+    // Health Related Variables
     public Slider SpyHealth;
     public Image SpyHealthColor;
 
@@ -18,115 +19,93 @@ public class GameBehavior : MonoBehaviour
     public Color warningColor;
     public Color okayColor;
 
+    private uint health_spy = 100;
     private bool winScreenShow = false;
     private bool loseScreenShow = false;
-    private uint health_spy = 100;
-    private uint solar_panel_collected = 0;
-    private uint batteries_collected = 0;
-    private string target01 = "solar panels";
-    private string target02 = "batteries";
+    
+
+    // Inventory Related Variables
+    public string target01 = "solar panels";
+    public string target02 = "batteries";
+
+    private uint target01_collected = 0;
+    private uint target02_collected = 0;
+    private uint target01_goal = 0;
+    private uint target02_goal = 0;
 
     private Text InventoryLabel;
     private Image InventoryImage;
+    
+    public Sprite[] spriteArray;
+    private uint target01_imageIdx = 0;
+    private uint target02_imageIdx = 1;
 
-    private void Start()
+    // Game Progress Variables
+    protected Dictionary<string, uint> GoalDict =
+        new Dictionary<string, uint>();
+    private string file = "Assets/Scripts/goals.txt";
+    
+
+    void Start()
     {
-        if (SceneManager.GetActiveScene().name == "ca2020" ||
-            SceneManager.GetActiveScene().name == "outer_2100")
+        // Read in file lines to make progress dictionary
+        string[] lines = File.ReadAllLines(@file);
+
+        foreach (string line in lines)
         {
-            target01 = "solar panels";
-            target02 = "batteries";
+            string[] itemInfo = line.Split(' ');
+
+            Debug.Log(itemInfo[0]);
+            Debug.Log(itemInfo[1]);
+
+            GoalDict.Add(itemInfo[0], uint.Parse(itemInfo[1]));
         }
 
-        labelText.text = string.Format("MISSION TASK :: Find {0} {1} " +
-            "and {2} {3}. Avoid the fires", solar_panels, target01,
-            batteries, target02);
-    }
+        // Set Prior Health Level
+        health_spy = GoalDict["LastHealth"];
 
+        // Set Mission Reminder Text
+        GetMessageText();
 
-    public uint HealthSpy
-    {
-        get { return health_spy; }
-        set
+        // Load Correct Scene Items
+        if (SceneManager.GetSceneByName("ca2020").isLoaded)
         {
-            health_spy = value;
-
-            if (health_spy <= 0)
+            if (GoalDict["LastGoal"] <= 2)
             {
-                labelText.text = "Oh no!";
-                WinOrLoseScreen("lose");
+                // load items additive
             }
-            else
-            {
-                labelText.text = "Ouch!";
-            }
+            else { }
         }
-    }
-
-    public uint SolarPanels
-    {
-        get { return solar_panel_collected; }
-        set
+        else if ( SceneManager.GetSceneByName("outer_2100").isLoaded)
         {
-            solar_panel_collected = value;
 
-            if (solar_panel_collected == solar_panels)
+            if (GoalDict["LastGoal"] < 1)
             {
-                if (batteries_collected == batteries) {
-                    labelText.text = "You got all the missing pieces of the "
-                            + "time-travel machine";
-                    WinOrLoseScreen("win"); }
-                else {
-                    labelText.text = string.Format("Nice! You got all " +
-                        "the solar panels!" +
-                        "Only {0} batteries left to find!",
-                        batteries - batteries_collected);
-                }
+                // load items additive
             }
-            else
-            {
-                if (batteries_collected == batteries) {
-                    labelText.text = "Only 1 solar panel left to find!"; }
-                else {
-                    labelText.text = string.Format("Nice! 1 solar panel "
-                        + "and {0} batteries left to find!",
-                        batteries - batteries_collected); }
-            }
-
+            else { }
         }
-    }
-
-    public uint Batteries
-    {
-        get { return batteries_collected; }
-        set
+        else if ( SceneManager.GetSceneByName("Lab").isLoaded)
         {
-            batteries_collected = value;
+            // load items additive
+        }
+        else if (SceneManager.GetSceneByName("TimeTravelInterface").isLoaded)
+        {
+            TimeMachineBehavior localManager =
+                GameObject.Find("ButtonControls")
+                .GetComponent<TimeMachineBehavior>();
 
-            if (batteries_collected == batteries)
+            switch (GoalDict["CurrentPlace"])
             {
-                if (solar_panel_collected == solar_panels) {
-                    labelText.text = "You got all the missing pieces"
-                            + " of the time-travel machine";
-                    WinOrLoseScreen("win"); }
-                else {
-                    labelText.text = string.Format("Nice! You got all"
-                        + "the batteries! Only {0} solar panels left to find!",
-                        solar_panels - solar_panel_collected);
-                }
+                case ( 0 ):
+                    localManager.Now = "2100";
+                    localManager.Here = "LAB";
+                    break;
+                case ( 1 ):
+                    localManager.Now = "2020";
+                    localManager.Here = "CA";
+                    break;
             }
-            else
-            {
-                if (solar_panel_collected == solar_panels) {
-                    labelText.text = string.Format("Only {0} batteries "
-                        + "left to find!", batteries - batteries_collected); }
-                else {
-                    labelText.text = string.Format("Nice! {0} batteries and"
-                        + " {1} solar panels left to find!",
-                        batteries - batteries_collected,
-                        solar_panels - solar_panel_collected); }
-            }
-
         }
     }
 
@@ -143,17 +122,21 @@ public class GameBehavior : MonoBehaviour
         else
         { loseScreenShow = true; }
 
+        // Load Inventory
         InventoryImage = GameObject.Find("Inventory0Image")
             .GetComponent<Image>();
         InventoryLabel = GameObject.Find("Inventory0Text")
                 .GetComponent<Text>();
 
-        if (solar_panel_collected > 0)
+        InventoryImage.sprite = spriteArray[target01_imageIdx];
+
+        
+        if (target01_collected > 0)
         {
             InventoryImage.enabled = true;
 
             InventoryLabel.text = string.Format("{0}/{1}",
-                solar_panel_collected, solar_panels);
+                target01_collected, target01_goal);
         }
         else
         {
@@ -165,12 +148,18 @@ public class GameBehavior : MonoBehaviour
         InventoryLabel = GameObject.Find("Inventory1Text")
             .GetComponent<Text>();
 
-        if (batteries_collected > 0)
+        InventoryImage.sprite = spriteArray[target02_imageIdx];
+
+        if (target02_collected > 0)
         {
             InventoryImage.enabled = true;
 
+            uint denom = target02_goal;
+            if (target02 == "test tubes")
+            { denom = target01_goal; }
+
             InventoryLabel.text = string.Format("{0}/{1}",
-                batteries_collected, batteries);
+                target02_collected, denom);
         }
         else
         {
@@ -178,13 +167,16 @@ public class GameBehavior : MonoBehaviour
         }
 
         // Creating win and lose screen buttons
+        // Update this to change mission progress
+        // Save and Update mission message
         if (winScreenShow)
         {
             if (GUI.Button(new Rect(Screen.width / 2 - 250,
                 Screen.height / 2 - 50, 500, 100),
-                "You Win!!! (Click to restart)"))
+                "You Completed the Mission Task! (Click to Continue)"))
             {
-                RestartLevel();
+                GoalDict["LastGoal"] += 1;
+                GetMessageText();
             }
         }
 
@@ -199,28 +191,23 @@ public class GameBehavior : MonoBehaviour
         }
     }
 
+    private void CheckWinCondition()
+    {
+        // function for advancing the scene
+        if (target01_collected >= target01_goal
+            && target02_collected >= target02_goal)
+        {
+            winScreenShow = true;
+            Time.timeScale = 0.0f;
+        }
+    }
+
+    // will need to build scene refs in lab file
     private void RestartLevel()
     {
         // function for restarting the scene
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1.0f;
-    }
-
-    private void WinOrLoseScreen(string cond)
-    {
-        // function for choosing which freeze
-        // screen button to show
-        if (cond == "win")
-        {
-            winScreenShow = true;
-
-        }
-        else if (cond == "lose")
-        {
-            loseScreenShow = true;
-        }
-
-        Time.timeScale = 0.0f;
     }
 
     public void GoToTimeMachine()
@@ -228,4 +215,299 @@ public class GameBehavior : MonoBehaviour
         SceneManager.LoadScene("TimeTravelInterface");
     }
 
+    // Attribute and Item Inventory Getter/Setters
+    // Can we generalize better? We need to know
+    // each molecule type separately for the simluator...
+    public uint HealthSpy
+    {
+        get { return health_spy; }
+        set
+        {
+            health_spy = value;
+
+            if (health_spy <= 0)
+            {
+                labelText.text = "Oh no!";
+                loseScreenShow = true;
+                Time.timeScale = 0.0f;
+            }
+            else
+            {
+                labelText.text = "Ouch!";
+            }
+        }
+    }
+
+    public uint SolarPanels
+    {
+        get { return GoalDict["SolarPanels"]; }
+        set
+        {
+            GoalDict["SolarPanels"] = value;
+
+            if (target01 == "solar panels")
+            {
+                target01_collected = value;
+                CheckWinCondition();
+            }
+        }
+    }
+
+    public uint Batteries
+    {
+        get { return GoalDict["Batteries"]; }
+        set
+        {
+            GoalDict["Batteries"] = value;
+
+            if (target02 == "batteries")
+            {
+                target02_collected = value;
+                CheckWinCondition();
+            }
+
+        }
+    }
+
+    public uint H2O
+    {
+        get { return GoalDict["H2O"]; }
+        set
+        {
+            uint priorValue = GoalDict["H2O"];
+            GoalDict["Samples"] -= priorValue;
+            GoalDict["Samples"] += value;
+            GoalDict["H20"] = value;
+
+            if (target01 == "air samples")
+            {
+                target01_collected = GoalDict["Samples"];
+                CheckWinCondition();
+            }
+
+        }
+    }
+
+    public uint CO2
+    {
+        get { return GoalDict["CO2"]; }
+        set
+        {
+            uint priorValue = GoalDict["CO2"];
+            GoalDict["Samples"] -= priorValue;
+            GoalDict["Samples"] += value;
+            GoalDict["CO2"] = value;
+
+            if (target01 == "air samples")
+            {
+                target01_collected = GoalDict["Samples"];
+                CheckWinCondition();
+            }
+
+        }
+    }
+
+    public uint Argon
+    {
+        get { return GoalDict["Argon"]; }
+        set
+        {
+            uint priorValue = GoalDict["Argon"];
+            GoalDict["Samples"] -= priorValue;
+            GoalDict["Samples"] += value;
+            GoalDict["Argon"] = value;
+
+            if (target01 == "air samples")
+            {
+                target01_collected = GoalDict["Samples"];
+                CheckWinCondition();
+            }
+
+        }
+    }
+
+    public uint N2
+    {
+        get { return GoalDict["N2"]; }
+        set
+        {
+            uint priorValue = GoalDict["N2"];
+            GoalDict["Samples"] -= priorValue;
+            GoalDict["Samples"] += value;
+            GoalDict["N2"] = value;
+
+            if (target01 == "air samples")
+            {
+                target01_collected = GoalDict["Samples"];
+                CheckWinCondition();
+            }
+
+        }
+    }
+
+    public uint Methane
+    {
+        get { return GoalDict["Methane"]; }
+        set
+        {
+            uint priorValue = GoalDict["Methane"];
+            GoalDict["Samples"] -= priorValue;
+            GoalDict["Samples"] += value;
+            GoalDict["Methane"] = value;
+
+            if (target01 == "air samples")
+            {
+                target01_collected = GoalDict["Samples"];
+                CheckWinCondition();
+            }
+
+        }
+    }
+
+    public uint O2
+    {
+        get { return GoalDict["O2"]; }
+        set
+        {
+            uint priorValue = GoalDict["O2"];
+            GoalDict["Samples"] -= priorValue;
+            GoalDict["Samples"] += value;
+            GoalDict["O2"] = value;
+
+            if (target01 == "air samples")
+            {
+                target01_collected = GoalDict["Samples"];
+                CheckWinCondition();
+            }
+
+        }
+    }
+
+    // Get Correct Mission Message
+    private void GetMessageText()
+    {
+        switch (GoalDict["LastGoal"])
+        {
+            case (0):
+                target01 = "solar panels";
+                target01_collected = GoalDict["SolarPanels"];
+                target01_goal = 2;
+                target01_imageIdx = 0;
+
+                target02 = "batteries";
+                target02_collected = GoalDict["Batteries"];
+                target02_goal = 3;
+                target02_imageIdx = 1;
+
+                labelText.text = string.Format(
+                "MISSION TASK: Find {0} {1} " +
+                "and {2} {3}. Avoid the fires!",
+                target01_goal, target01,
+                target02_goal, target02);
+                break;
+
+            case (1):
+                target01 = "see Rachel";
+                target01_collected = 0;
+                target01_goal = 1;
+
+                target02 = "none";
+                target02_collected = 0;
+                target02_goal = 0;
+
+                labelText.text = string.Format(
+                "MISSION TASK: Go {0} " +
+                "and deliver those supplies!",
+                target01);
+                break;
+
+            case (2):
+                target01 = "air samples";
+                target01_collected = GoalDict["Samples"];
+                target01_goal = 6;
+                target01_imageIdx = 3;
+
+                target02 = "test tubes";
+                target02_collected = 6 - target01_collected;
+                target02_goal = 0;
+                target02_imageIdx = 2;
+
+                labelText.text = string.Format(
+                "MISSION TASK: Collect {0} {1} " +
+                "from the past. Avoid the fires!",
+                target01_goal, target01);
+                break;
+
+            case (3):
+                target01 = "see Rachel";
+                target01_collected = 0;
+                target01_goal = 1;
+
+                target02 = "none";
+                target02_collected = 0;
+                target02_goal = 0;
+
+                labelText.text = string.Format(
+                "MISSION TASK: Go {0} with the samples.", target01);
+                break;
+
+            case (4):
+            case (8):
+                target01 = "lab puzzle";
+                target01_collected = 0;
+                target01_goal = 1;
+
+                target02 = "none";
+                target02_collected = 0;
+                target02_goal = 0;
+
+                labelText.text = "MISSION TASK: "
+                    + "Talk with Rachel about "
+                    + "the simulation results.";
+                break;
+
+            case (5):
+            case (7):
+                target01 = "air samples";
+                target01_collected = GoalDict["Samples"];
+                target01_goal = 4;
+                target01_imageIdx = 3;
+
+                target02 = "test tubes";
+                target02_collected = 4 - target01_collected;
+                target02_goal = 0;
+                target02_imageIdx = 2;
+
+                labelText.text = string.Format(
+                "MISSION TASK: Collect {0} {1} " +
+                "from the past. Try for good balance!",
+                target01_goal, target01);
+                break;
+
+            case (6):
+                target01 = "lab puzzle";
+                target01_collected = 0;
+                target01_goal = 1;
+
+                target02 = "none";
+                target02_collected = 0;
+                target02_goal = 0;
+
+                labelText.text = "MISSION TASK: "
+                    + "Head back to the lab to test your samples!";
+                break;
+
+            case (9):
+                target01 = "none";
+                target01_collected = 0;
+                target01_goal = 0;
+
+                target02 = "none";
+                target02_collected = 0;
+                target02_goal = 0;
+
+                labelText.text = "CONGRATS: You finished the game demo!";
+                break;
+        }
+    }
 }
