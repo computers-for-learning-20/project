@@ -1016,16 +1016,16 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 7cb2912222469634ba17a77055919ea8, type: 3}
     m_FontSize: 24
     m_FontStyle: 2
-    m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 40
+    m_BestFit: 1
+    m_MinSize: 18
+    m_MaxSize: 28
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: Collect Air Samples from the Past
+    m_LineSpacing: 0.5
+  m_Text: ' Go see Rachel and deliver those supplies!'
 --- !u!222 &289792757
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -541,5 +541,11 @@ public class GameBehavior : MonoBehaviour
                 labelText.text = "CONGRATS: You finished the game demo!";
                 break;
         }
+
+        if (SceneManager
+            .GetSceneByName("TimeTravelInterface").isLoaded)
+        {
+            labelText.text = labelText.text.Replace("MISSION TASK:", ""); 
+        }
     }
 }

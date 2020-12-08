@@ -1,6 +1,6 @@
 LastHealth 100
 CurrentPlace 0
-LastGoal 3
+LastGoal 2
 TestTubes 0
 SolarPanels 0
 Batteries 0
