@@ -10,5 +10,5 @@ Argon 1
 N2 0
 O2 1
 Methane 1
-Samples 8
+Samples 9
 H20 1
