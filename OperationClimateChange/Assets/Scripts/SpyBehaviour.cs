@@ -114,23 +114,27 @@ public class SpyBehaviour : MonoBehaviour
         {
             switch (collision.gameObject.name)
             {
+                // issue note: since multiple collisions on moving
+                // targets were causing multiple inventory adds,
+                // limiting to one of each particle type.
+
                 case ("o2"):
-                    gameManager.O2 += 1;
+                    gameManager.O2 = 1;
                     break;
                 case ("co2"):
-                    gameManager.CO2 += 1;
+                    gameManager.CO2 = 1;
                     break;
                 case ("h2o"):
-                    gameManager.H2O += 1;
+                    gameManager.H2O = 1;
                     break;
                 case ("n2"):
-                    gameManager.N2 += 1;
+                    gameManager.N2 = 1;
                     break;
                 case ("methane"):
-                    gameManager.Methane += 1;
+                    gameManager.Methane = 1;
                     break;
                 case ("argon"):
-                    gameManager.Argon += 1;
+                    gameManager.Argon = 1;
                     break;
             }
         }
