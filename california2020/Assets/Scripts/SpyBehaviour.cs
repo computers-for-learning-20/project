@@ -19,6 +19,11 @@ public class SpyBehaviour : MonoBehaviour
     CharacterController controller;
     Animator anim;
 
+    // List of Particle Types
+    private List<string> particles
+        = new List<string> { "methane", "h2o", "o2",
+            "n2", "argon", "co2"};
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,7 +107,7 @@ public class SpyBehaviour : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        //Decrease Spy's health if it collides with fire
+        
         if (collision.gameObject.name == "battery" ||
             collision.gameObject.name == "battery_small")
         {
@@ -113,12 +118,36 @@ public class SpyBehaviour : MonoBehaviour
         {
             gameManager.SolarPanels += 1;
         }
+        else if (particles.Contains(collision.gameObject.name))
+        {
+            switch (collision.gameObject.name)
+            {
+                case ("o2"):
+                    gameManager.O2 += 1;
+                    break;
+                case ("co2"):
+                    gameManager.CO2 += 1;
+                    break;
+                case ("h2o"):
+                    gameManager.H2O += 1;
+                    break;
+                case ("n2"):
+                    gameManager.N2 += 1;
+                    break;
+                case ("methane"):
+                    gameManager.Methane += 1;
+                    break;
+                case ("argon"):
+                    gameManager.Argon += 1;
+                    break;
+            }
+        }
 
     }
 
     void OnParticleCollision(GameObject other)
     {
-
+        //Decrease Spy's health if it collides with fire
         if (other.name == "RovingFlame" ||
             other.name == "Fire")
         {

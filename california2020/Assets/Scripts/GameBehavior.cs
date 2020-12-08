@@ -110,73 +110,77 @@ public class GameBehavior : MonoBehaviour
 
     private void OnGUI()
     {
-        // Load Inventory
-        InventoryImage = GameObject.Find("Inventory0Image")
-            .GetComponent<Image>();
-        InventoryLabel = GameObject.Find("Inventory0Text")
+
+        if (!SceneManager.GetSceneByName("TimeTravelInterface").isLoaded)
+        { 
+            // Load Inventory
+            InventoryImage = GameObject.Find("Inventory0Image")
+                .GetComponent<Image>();
+            InventoryLabel = GameObject.Find("Inventory0Text")
+                    .GetComponent<Text>();
+
+            InventoryImage.sprite = spriteArray[target01_imageIdx];
+        
+            if (target01_collected > 0)
+            {
+                InventoryImage.enabled = true;
+
+                InventoryLabel.text = string.Format("{0}/{1}",
+                    target01_collected, target01_goal);
+            }
+            else
+            {
+                InventoryImage.enabled = false;
+                InventoryLabel.text = "";
+            }
+
+            InventoryImage = GameObject.Find("Inventory1Image")
+                .GetComponent<Image>();
+            InventoryLabel = GameObject.Find("Inventory1Text")
                 .GetComponent<Text>();
 
-        InventoryImage.sprite = spriteArray[target01_imageIdx];
-        
-        if (target01_collected > 0)
-        {
-            InventoryImage.enabled = true;
+            InventoryImage.sprite = spriteArray[target02_imageIdx];
 
-            InventoryLabel.text = string.Format("{0}/{1}",
-                target01_collected, target01_goal);
-        }
-        else
-        {
-            InventoryImage.enabled = false;
-            InventoryLabel.text = "";
-        }
-
-        InventoryImage = GameObject.Find("Inventory1Image")
-            .GetComponent<Image>();
-        InventoryLabel = GameObject.Find("Inventory1Text")
-            .GetComponent<Text>();
-
-        InventoryImage.sprite = spriteArray[target02_imageIdx];
-
-        if (target02_collected > 0)
-        {
-            InventoryImage.enabled = true;
-
-            uint denom = target02_goal;
-            if (target02 == "test tubes")
-            { denom = target01_goal; }
-
-            InventoryLabel.text = string.Format("{0}/{1}",
-                target02_collected, denom);
-        }
-        else
-        {
-            InventoryImage.enabled = false;
-            InventoryLabel.text = "";
-        }
-
-        // Creating win and lose screen buttons
-        // Update this to change mission progress
-        // Save and Update mission message
-        if (winScreenShow)
-        {
-            if (GUI.Button(new Rect(Screen.width / 2 - 250,
-                Screen.height / 2 - 50, 500, 100),
-                "You Completed the Mission Task! (Click to Continue)"))
+            if (target02_collected > 0)
             {
-                GoalDict["LastGoal"] += 1;
-                GetMessageText();
-		RestartLevel();
+                InventoryImage.enabled = true;
+
+                uint denom = target02_goal;
+                if (target02 == "test tubes")
+                { denom = target01_goal; }
+
+                InventoryLabel.text = string.Format("{0}/{1}",
+                    target02_collected, denom);
             }
-        }
-
-        if (loseScreenShow)
-        {
-            if (GUI.Button(new Rect(Screen.width / 2 - 250,
-                Screen.height / 2 - 50, 500, 100),
-                "Oh no! You've lost! (Click to restart)"))
+            else
             {
-                RestartLevel();
+                InventoryImage.enabled = false;
+                InventoryLabel.text = "";
+            }
+
+            // Creating win and lose screen buttons
+            // Update this to change mission progress
+            // Save and Update mission message
+            if (winScreenShow)
+            {
+                if (GUI.Button(new Rect(Screen.width / 2 - 250,
+                    Screen.height / 2 - 50, 500, 100),
+                    "You Completed the Mission Task! (Click to Continue)"))
+                {
+                    GoalDict["LastGoal"] += 1;
+                    GetMessageText();
+		    RestartLevel();
+                }
+            }
+
+            if (loseScreenShow)
+            {
+                if (GUI.Button(new Rect(Screen.width / 2 - 250,
+                    Screen.height / 2 - 50, 500, 100),
+                    "Oh no! You've lost! (Click to restart)"))
+                {
+                    RestartLevel();
+                }
             }
         }
     }
