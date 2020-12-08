@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -52,16 +53,13 @@ public class GameBehavior : MonoBehaviour
     {
         // Read in file lines to make progress dictionary
         string[] lines = File.ReadAllLines(@file);
-
+        
         foreach (string line in lines)
         {
             string[] itemInfo = line.Split(' ');
-
-            Debug.Log(itemInfo[0]);
-            Debug.Log(itemInfo[1]);
-
             GoalDict.Add(itemInfo[0], uint.Parse(itemInfo[1]));
         }
+        Debug.Log("game progress loaded");
 
         // Set Prior Health Level
         health_spy = GoalDict["LastHealth"];
@@ -107,10 +105,12 @@ public class GameBehavior : MonoBehaviour
             switch (GoalDict["CurrentPlace"])
             {
                 case ( 0 ):
+                    Debug.Log("loading lab as current");
                     localManager.Now = "2100";
                     localManager.Here = "LAB";
                     break;
                 case ( 1 ):
+                    Debug.Log("loading ca as current");
                     localManager.Now = "2020";
                     localManager.Here = "CA";
                     break;
@@ -213,12 +213,16 @@ public class GameBehavior : MonoBehaviour
     private void RestartLevel()
     {
         // function for restarting the scene
+        health_spy = 100;
+        balance_earth = 50;
+        WriteGoalProgress();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1.0f;
     }
 
     public void GoToTimeMachine()
     {
+        WriteGoalProgress();
         SceneManager.LoadScene("TimeTravelInterface");
     }
 
@@ -414,6 +418,30 @@ public class GameBehavior : MonoBehaviour
 
         }
     }
+    // Save current progress for next scene load
+    public void WriteGoalProgress()
+    {
+        // updating health and place
+        GoalDict["LastHealth"] = health_spy;
+
+        if (SceneManager.GetSceneByName("Lab").isLoaded ||
+            SceneManager.GetSceneByName("outer_2100").isLoaded)
+        { GoalDict["CurrentPlace"] = 0; }
+        else if (SceneManager.GetSceneByName("ca2020").isLoaded)
+        { GoalDict["CurrentPlace"] = 1; }
+
+        // saving progress
+        try
+        {
+            File.WriteAllLines(@file,
+            GoalDict.Select(x => x.Key + " " + x.Value).ToArray());
+            Debug.Log("Progress Saved.");
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(string.Format("{0} Exception caught.", e));
+        }
+    }
 
     // Get Correct Mission Message
     private void GetMessageText()
@@ -545,7 +573,8 @@ public class GameBehavior : MonoBehaviour
         if (SceneManager
             .GetSceneByName("TimeTravelInterface").isLoaded)
         {
-            labelText.text = labelText.text.Replace("MISSION TASK:", ""); 
+            labelText.text = labelText.text.Replace("MISSION TASK:", "");
+            
         }
     }
 }

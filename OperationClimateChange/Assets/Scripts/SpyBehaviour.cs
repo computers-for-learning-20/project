@@ -104,10 +104,12 @@ public class SpyBehaviour : MonoBehaviour
 
         else if (collision.gameObject.name == "door_to_lab")
         {
+            gameManager.WriteGoalProgress();
             SceneManager.LoadScene("Lab");
         }
         else if (collision.gameObject.name == "door_to_outer")
         {
+            gameManager.WriteGoalProgress();
             SceneManager.LoadScene("outer_2100");
         }
         else if (particles.Contains(collision.gameObject.name))
