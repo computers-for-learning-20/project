@@ -12,11 +12,16 @@ public class GameBehavior : MonoBehaviour
     public Text labelText;
 
     // Health Related Variables
-    public Slider SpyHealth;
+    public Slider SpyHealthSlider;
     public Image SpyHealthColor;
-    public Gradient gradient;
+    public Gradient SpyGradient;
+
+    public Slider EarthBalanceSlider;
+    public Image EarthBalanceColor;
+    public Gradient EarthGradient;
 
     private uint health_spy = 100;
+    private uint balance_earth = 50;
     private bool winScreenShow = false;
     private bool loseScreenShow = false;
     
@@ -60,8 +65,11 @@ public class GameBehavior : MonoBehaviour
 
         // Set Prior Health Level
         health_spy = GoalDict["LastHealth"];
-        SpyHealth.value = health_spy;
-        SpyHealthColor.color = gradient.Evaluate(1f);
+        SpyHealthSlider.value = health_spy;
+        SpyHealthColor.color = SpyGradient.Evaluate(1f);
+        
+        EarthBalanceSlider.value = balance_earth;
+        EarthBalanceColor.color = EarthGradient.Evaluate(1f);
 
         // Set Mission Reminder Text
         GetMessageText();
@@ -217,9 +225,9 @@ public class GameBehavior : MonoBehaviour
         set
         {
             health_spy = value;
-            SpyHealth.value = health_spy;
-            SpyHealthColor.color = gradient
-                .Evaluate(SpyHealth.normalizedValue);
+            SpyHealthSlider.value = health_spy;
+            SpyHealthColor.color = SpyGradient
+                .Evaluate(SpyHealthSlider.normalizedValue);
             if (health_spy <= 0)
             {
                 labelText.text = "Oh no!";
@@ -229,6 +237,28 @@ public class GameBehavior : MonoBehaviour
             else
             {
                 labelText.text = "Ouch!";
+            }
+        }
+    }
+
+    public uint BalanceEarth
+    {
+        get { return balance_earth; }
+        set
+        {
+            balance_earth = value;
+            EarthBalanceSlider.value = balance_earth;
+            EarthBalanceColor.color = EarthGradient
+                .Evaluate(EarthBalanceSlider.normalizedValue);
+            if (balance_earth <= 0 | balance_earth >= 100)
+            {
+                labelText.text = "Oh no, Earth model failed!";
+                loseScreenShow = true;
+                Time.timeScale = 0.0f;
+            }
+            else
+            {
+                labelText.text = "Careful with the Earth!";
             }
         }
     }
