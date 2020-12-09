@@ -1467,6 +1467,7 @@ MonoBehaviour:
   warpText: {fileID: 269583982}
   ui: {fileID: 258560733}
   screen: {fileID: 1343686298}
+  gameBehavior: {fileID: 1090107047}
 --- !u!224 &672229813
 RectTransform:
   m_ObjectHideFlags: 0

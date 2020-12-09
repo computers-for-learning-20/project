@@ -11,7 +11,6 @@ public class WarpBehavior : MonoBehaviour
     private Text NextPlace;
 
     public GameObject WhiteBox;
-    public GameBehavior gameBehavior;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +18,6 @@ public class WarpBehavior : MonoBehaviour
         NextPlace = GameObject.Find("PlaceText").GetComponent<Text>();
         NextYear = GameObject.Find("YearText").GetComponent<Text>();
 
-        gameBehavior.WriteGoalProgress();
     }
 
     // Update is called once per frame

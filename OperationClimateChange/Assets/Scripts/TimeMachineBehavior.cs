@@ -9,6 +9,7 @@ public class TimeMachineBehavior : MonoBehaviour
 {
     private string CurrentYear = "2100";
     private string CurrentPlace = "LAB";
+    private bool FirstUpdate = true;
 
     public Text PlaceDisplay;
     public Text YearDisplay;
@@ -28,29 +29,43 @@ public class TimeMachineBehavior : MonoBehaviour
 
     public Canvas ui;
     public GameObject screen;
+    public GameBehavior gameBehavior;
 
-    public string Now
-    {
-        get { return CurrentYear; }
-        set { CurrentYear = value; }
-    }
-
-    public string Here
-    {
-        get { return CurrentPlace; }
-        set { CurrentPlace = value; }
-    }
 
     // Use this for initialization
     void Start()
     {
-        LoadWhenAndWhere(CurrentPlace, CurrentYear);
-        Debug.Log("start load triggered");
+        // initial load of current loc in first frame
     }
 
     // Update is called once per frame
     void Update()
     {
+        // take current location from gameManager once
+        if (FirstUpdate && gameBehavior.progressLoaded)
+        {
+            if (gameBehavior.CurrentPlace == 0)
+            {
+                CurrentPlace = "LAB";
+                Place01.isOn = true;
+                CurrentYear = "2100";
+                YearSlider.value = 1;
+            }
+            else
+            {
+                CurrentPlace = "CA";
+                Place04.isOn = true;
+                CurrentYear = "2020";
+                YearSlider.value = 0;
+            }
+
+            UnloadExtras();
+            LoadWhenAndWhere(CurrentPlace, CurrentYear);
+            FirstUpdate = false;
+        }
+
+
+        // Check for message updates
         string messageText = ": : : : MESSAGE : : : : "
             + "All Systems Ready";
 
@@ -131,7 +146,7 @@ public class TimeMachineBehavior : MonoBehaviour
 
         UnloadExtras();
 
-        if (Year == "2100" )
+        if (Year == "2100")
         {
             SceneManager.LoadScene("2100places",
                 LoadSceneMode.Additive);

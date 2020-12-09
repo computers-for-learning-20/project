@@ -44,6 +44,7 @@ public class GameBehavior : MonoBehaviour
     private uint target02_imageIdx = 1;
 
     // Game Progress Variables
+    public bool progressLoaded = false;
     protected Dictionary<string, uint> GoalDict =
         new Dictionary<string, uint>();
     private string file = "Assets/Scripts/goals.txt";
@@ -60,6 +61,7 @@ public class GameBehavior : MonoBehaviour
             GoalDict.Add(itemInfo[0], uint.Parse(itemInfo[1]));
         }
         Debug.Log("game progress loaded");
+        progressLoaded = true;
 
         // Set Prior Health Level
         health_spy = GoalDict["LastHealth"];
@@ -97,25 +99,7 @@ public class GameBehavior : MonoBehaviour
             // load items additive
         }
         else if (SceneManager.GetSceneByName("TimeTravelInterface").isLoaded)
-        {
-            TimeMachineBehavior localManager =
-                GameObject.Find("ButtonControls")
-                .GetComponent<TimeMachineBehavior>();
-
-            switch (GoalDict["CurrentPlace"])
-            {
-                case ( 0 ):
-                    Debug.Log("loading lab as current");
-                    localManager.Now = "2100";
-                    localManager.Here = "LAB";
-                    break;
-                case ( 1 ):
-                    Debug.Log("loading ca as current");
-                    localManager.Now = "2020";
-                    localManager.Here = "CA";
-                    break;
-            }
-        }
+        { WriteGoalProgress(); }
     }
 
     private void OnGUI()
@@ -418,6 +402,18 @@ public class GameBehavior : MonoBehaviour
 
         }
     }
+
+    public uint CurrentPlace
+    {
+        get { return GoalDict["CurrentPlace"]; }
+        set
+        {
+            GoalDict["CurrentPlace"] = value;
+        }
+    }
+
+
+
     // Save current progress for next scene load
     public void WriteGoalProgress()
     {
