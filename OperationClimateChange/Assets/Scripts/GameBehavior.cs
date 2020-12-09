@@ -241,20 +241,28 @@ public class GameBehavior : MonoBehaviour
         get { return balance_earth; }
         set
         {
+            int change = (int) balance_earth - (int) value;
             balance_earth = value;
+            if (balance_earth <= 0 | balance_earth >= 100)
+            {
+                if(GoalDict["LastGoal"] < 5){ 
+                //Change balance earth model to be in less extreme ranges
+                    if(change > 0){balance_earth  = 20;}
+                    else{balance_earth=80;}
+                }
+                else{
+                labelText.text = "Oh no, Earth Model failed!";
+                loseScreenShow = true;
+                Time.timeScale = 0.0f;
+                }
+            }
+            else if(change> 0){labelText.text = "Earth getting Warmer!";}
+            else if(change < 0){labelText.text = "Earth getting colder!";}
+            
             EarthBalanceSlider.value = balance_earth;
             EarthBalanceColor.color = EarthGradient
                 .Evaluate(EarthBalanceSlider.normalizedValue);
-            if (balance_earth <= 0 | balance_earth >= 100)
-            {
-                labelText.text = "Oh no, Earth model failed!";
-                loseScreenShow = true;
-                Time.timeScale = 0.0f;
-            }
-            else
-            {
-                labelText.text = "Careful with the Earth!";
-            }
+
         }
     }
 

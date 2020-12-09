@@ -1,4 +1,5 @@
 LastHealth 100
+BalanceEarth 50
 CurrentPlace 0
 LastGoal 0
 TestTubes 0
