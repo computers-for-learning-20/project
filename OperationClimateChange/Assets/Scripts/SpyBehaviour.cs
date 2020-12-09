@@ -93,7 +93,8 @@ public class SpyBehaviour : MonoBehaviour
     void OnCollisionEnter(Collision collision){
         
         // Check for items to collect
-        if (collision.gameObject.name == "battery" | collision.gameObject.name == "battery_small")
+        if (collision.gameObject.name == "battery"
+            || collision.gameObject.name == "battery_small")
         {
             gameManager.Batteries += 1;
         }
@@ -111,6 +112,10 @@ public class SpyBehaviour : MonoBehaviour
         {
             gameManager.WriteGoalProgress();
             SceneManager.LoadScene("outer_2100");
+        }
+        else if (collision.gameObject.name == "console")
+        {
+            gameManager.GoToTimeMachine();
         }
         else if (particles.Contains(collision.gameObject.name))
         {

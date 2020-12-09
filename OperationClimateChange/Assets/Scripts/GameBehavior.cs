@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -77,24 +78,7 @@ public class GameBehavior : MonoBehaviour
         GetMessageText();
 
         // Load Correct Scene Items
-        if (SceneManager.GetSceneByName("ca2020").isLoaded)
-        {
-            if (GoalDict["LastGoal"] <= 2)
-            {
-                // load items additive
-            }
-            else { }
-        }
-        else if ( SceneManager.GetSceneByName("outer_2100").isLoaded)
-        {
-
-            if (GoalDict["LastGoal"] < 1)
-            {
-                // load items additive
-            }
-            else { }
-        }
-        else if ( SceneManager.GetSceneByName("Lab").isLoaded)
+        if ( SceneManager.GetSceneByName("Lab").isLoaded)
         {
             // load items additive
         }
@@ -107,7 +91,16 @@ public class GameBehavior : MonoBehaviour
         // Load Inventory
         if (!SceneManager.GetSceneByName("TimeTravelInterface").isLoaded)
         {
+            if (GoalDict["LastGoal"] < 2)
+            {
+                Button warp = GameObject.Find("InventoryTimeMachine")
+                    .GetComponent<Button>();
+                Text warpLabel = GameObject.Find("TMText")
+                    .GetComponent<Text>();
 
+                warp.interactable = false;
+                warpLabel.color = new Color(0f, 0f, 0f, 1f);
+            }
 
             InventoryImage = GameObject.Find("Inventory0Image")
             .GetComponent<Image>();
@@ -143,6 +136,8 @@ public class GameBehavior : MonoBehaviour
                 uint denom = target02_goal;
                 if (target02 == "test tubes")
                 { denom = target01_goal; }
+                else if (target02 == "air samples")
+                { denom = target02_collected;}
 
                 InventoryLabel.text = string.Format("{0}/{1}",
                     target02_collected, denom);
@@ -163,8 +158,13 @@ public class GameBehavior : MonoBehaviour
                     "You Completed the Mission Task! (Click to Continue)"))
                 {
                     GoalDict["LastGoal"] += 1;
+                    health_spy = 100;
+                    WriteGoalProgress();
+
                     GetMessageText();
-                    RestartLevel();
+                    
+                    Time.timeScale = 1.0f;
+                    
                 }
             }
 
@@ -183,13 +183,14 @@ public class GameBehavior : MonoBehaviour
     private void CheckWinCondition()
     {
         // function for advancing the scene
-	GetMessageText();
+	    GetMessageText();
 
-        if (target01_collected >= target01_goal
-            && target02_collected >= target02_goal)
+        if (target01_collected == target01_goal
+            && target02_collected == target02_goal)
         {
             winScreenShow = true;
             Time.timeScale = 0.0f;
+            
         }
     }
 
@@ -206,14 +207,18 @@ public class GameBehavior : MonoBehaviour
 
     public void GoToTimeMachine()
     {
-        WriteGoalProgress();
-        SceneManager.LoadScene("TimeTravelInterface");
+        if (GoalDict["LastGoal"] < 2)
+        {
+            labelText.text = "The time machine isn't working yet...";
+        }
+        else
+        {
+            WriteGoalProgress();
+            SceneManager.LoadScene("TimeTravelInterface");
+        }
     }
 
     // Attribute and Item Inventory Getter/Setters
-    // Can we generalize better? We need to know
-    // each molecule type separately for the simluator...
-           
     public uint HealthSpy
     {
         get { return health_spy; }
@@ -275,8 +280,14 @@ public class GameBehavior : MonoBehaviour
 
             if (target01 == "solar panels")
             {
-                target01_collected = value;
-                CheckWinCondition();
+                if (value > target01_goal)
+                { labelText.text = "You don't need any more solar panels!"; }
+
+                target01_collected = Math.Min(value, target01_goal);
+                labelText.text = ItemCollectionMessages(2);
+
+                if (labelText.text == "All done!")
+                { CheckWinCondition(); }
             }
         }
     }
@@ -290,8 +301,14 @@ public class GameBehavior : MonoBehaviour
 
             if (target02 == "batteries")
             {
-                target02_collected = value;
-                CheckWinCondition();
+                if (value > target02_goal)
+                { labelText.text = "You don't need any more batteries!"; }
+
+                target02_collected = Math.Min(value, target02_goal);
+                labelText.text = ItemCollectionMessages(2);
+
+                if (labelText.text == "All done!")
+                { CheckWinCondition(); }
             }
 
         }
@@ -305,12 +322,18 @@ public class GameBehavior : MonoBehaviour
             uint priorValue = GoalDict["H2O"];
             GoalDict["Samples"] -= priorValue;
             GoalDict["Samples"] += value;
-            GoalDict["H20"] = value;
+            GoalDict["H2O"] = value;
 
             if (target01 == "air samples")
             {
-                target01_collected = GoalDict["Samples"];
-                CheckWinCondition();
+                target01_collected =
+                    Math.Min(GoalDict["Samples"], target01_goal);
+                target02_collected =
+                    target01_goal - target01_collected;
+
+                labelText.text = ItemCollectionMessages(1);
+                if (labelText.text == "All done!")
+                { CheckWinCondition(); }
             }
 
         }
@@ -328,8 +351,14 @@ public class GameBehavior : MonoBehaviour
 
             if (target01 == "air samples")
             {
-                target01_collected = GoalDict["Samples"];
-                CheckWinCondition();
+                target01_collected =
+                    Math.Min(GoalDict["Samples"], target01_goal);
+                target02_collected =
+                    target01_goal - target01_collected;
+
+                labelText.text = ItemCollectionMessages(1);
+                if (labelText.text == "All done!")
+                { CheckWinCondition(); }
             }
 
         }
@@ -347,8 +376,14 @@ public class GameBehavior : MonoBehaviour
 
             if (target01 == "air samples")
             {
-                target01_collected = GoalDict["Samples"];
-                CheckWinCondition();
+                target01_collected =
+                    Math.Min(GoalDict["Samples"], target01_goal);
+                target02_collected =
+                    target01_goal - target01_collected;
+
+                labelText.text = ItemCollectionMessages(1);
+                if (labelText.text == "All done!")
+                { CheckWinCondition(); }
             }
 
         }
@@ -366,8 +401,14 @@ public class GameBehavior : MonoBehaviour
 
             if (target01 == "air samples")
             {
-                target01_collected = GoalDict["Samples"];
-                CheckWinCondition();
+                target01_collected =
+                    Math.Min(GoalDict["Samples"], target01_goal);
+                target02_collected =
+                    target01_goal - target01_collected;
+
+                labelText.text = ItemCollectionMessages(1);
+                if (labelText.text == "All done!")
+                { CheckWinCondition(); }
             }
 
         }
@@ -385,8 +426,14 @@ public class GameBehavior : MonoBehaviour
 
             if (target01 == "air samples")
             {
-                target01_collected = GoalDict["Samples"];
-                CheckWinCondition();
+                target01_collected =
+                    Math.Min(GoalDict["Samples"], target01_goal);
+                target02_collected =
+                    target01_goal -target01_collected;
+
+                labelText.text = ItemCollectionMessages(1);
+                if (labelText.text == "All done!")
+                { CheckWinCondition(); }
             }
 
         }
@@ -404,8 +451,14 @@ public class GameBehavior : MonoBehaviour
 
             if (target01 == "air samples")
             {
-                target01_collected = GoalDict["Samples"];
-                CheckWinCondition();
+                target01_collected =
+                    Math.Min(GoalDict["Samples"], target01_goal);
+                target02_collected =
+                    target01_goal - target01_collected;
+
+                labelText.text = ItemCollectionMessages(1);
+                if (labelText.text == "All done!")
+                { CheckWinCondition(); }
             }
 
         }
@@ -471,18 +524,18 @@ public class GameBehavior : MonoBehaviour
                 break;
 
             case (1):
-                target01 = "see Rachel";
-                target01_collected = 0;
-                target01_goal = 1;
+                target01 = "solar panels";
+                target01_collected = GoalDict["SolarPanels"];
+                target01_goal = 2;
+                target01_imageIdx = 0;
 
-                target02 = "none";
-                target02_collected = 0;
-                target02_goal = 0;
+                target02 = "batteries";
+                target02_collected = GoalDict["Batteries"];
+                target02_goal = 3;
+                target02_imageIdx = 1;
 
-                labelText.text = string.Format(
-                "MISSION TASK: Go {0} " +
-                "and deliver those supplies!",
-                target01);
+                labelText.text = "MISSION TASK: Go see Rachel " +
+                    "and deliver those supplies!";
                 break;
 
             case (2):
@@ -497,26 +550,29 @@ public class GameBehavior : MonoBehaviour
                 target02_imageIdx = 2;
 
                 labelText.text = string.Format(
-                "MISSION TASK: Collect {0} {1} " +
-                "from the past. Avoid the fires!",
-                target01_goal, target01);
+                    "MISSION TASK: Collect {0} {1} "
+                    + "from the past. Avoid the fires!",
+                    target01_goal, target01);
                 break;
 
             case (3):
-                target01 = "see Rachel";
-                target01_collected = 0;
-                target01_goal = 1;
+                target01 = "air samples";
+                target01_collected = GoalDict["Samples"];
+                target01_goal = 6;
+                target01_imageIdx = 3;
 
-                target02 = "none";
-                target02_collected = 0;
+                target02 = "test tubes";
+                target02_collected = 6 - target01_collected;
                 target02_goal = 0;
+                target02_imageIdx = 2;
 
-                labelText.text = string.Format(
-                "MISSION TASK: Go {0} with the samples.", target01);
+                labelText.text = "MISSION TASK: Go back to "
+                    + "Rachel with the samples.";
                 break;
 
             case (4):
             case (8):
+                // possible addition of image/inventory
                 target01 = "lab puzzle";
                 target01_collected = 0;
                 target01_goal = 1;
@@ -543,19 +599,21 @@ public class GameBehavior : MonoBehaviour
                 target02_imageIdx = 2;
 
                 labelText.text = string.Format(
-                "MISSION TASK: Collect {0} {1} " +
-                "from the past. Try for good balance!",
-                target01_goal, target01);
+                    "MISSION TASK: Collect {0} {1} " +
+                    "from the past. Try for good balance!",
+                    target01_goal, target01);
                 break;
 
             case (6):
+                // possible image add
                 target01 = "lab puzzle";
                 target01_collected = 0;
                 target01_goal = 1;
 
-                target02 = "none";
-                target02_collected = 0;
+                target02 = "air samples";
+                target02_collected = GoalDict["Samples"];
                 target02_goal = 0;
+                target02_imageIdx = 3;
 
                 labelText.text = "MISSION TASK: "
                     + "Head back to the lab to test your samples!";
@@ -580,5 +638,61 @@ public class GameBehavior : MonoBehaviour
             labelText.text = labelText.text.Replace("MISSION TASK:", "");
             
         }
+    }
+
+    private string ItemCollectionMessages(int targetCount)
+    {
+        string message = labelText.text;
+
+        int target01_remaining = (int) target01_goal
+            - (int) target01_collected;
+
+        if (targetCount == 1)
+        {
+            if (target01_remaining > 1)
+            {
+                message = string.Format("Nice! Only {0} {1} left to get.",
+                    target01_remaining, target01);
+            }
+            else if (target01_remaining == 1)
+            {
+                message = string.Format("Awesome! Get the last {0}!",
+                    target01);
+            }
+            else if (target01_remaining == 0)
+            {
+                message = "All done!";
+            }
+        }
+        else
+        {
+            int target02_remaining = (int)target02_goal
+                - (int)target02_collected;
+
+            if (target01_remaining > 0 && target02_remaining > 0)
+            {
+                message = string.Format(
+                    "Nice! {0} {1} and {2} {3} left to get.",
+                    target01_remaining, target01,
+                    target02_remaining, target02);
+            }
+            else if (target01_remaining == 0 && target02_remaining > 0)
+            {
+                message = string.Format("All {0} collected!"
+                    + " {1} {2} left to get.",
+                    target01, target02_remaining, target02);
+            }
+            else if (target02_remaining == 0 && target01_remaining > 0)
+            {
+                message = string.Format("All {0} collected!"
+                    + " {1} {2} left to get.",
+                    target02, target01_remaining, target01);
+            }
+            else if (target01_remaining == 0 && target02_remaining == 0)
+            {
+                message = "All done!";
+            }
+        }
+        return message;
     }
 }
