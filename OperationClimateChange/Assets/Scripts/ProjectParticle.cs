@@ -21,7 +21,7 @@ public class ProjectParticle : MonoBehaviour
 
     // Update is called once per frame
     
-    void Project_particleItems(string name){
+    public void Project_particleItems(string name){
         
         GameObject particle_item = o2;
         switch (name)
