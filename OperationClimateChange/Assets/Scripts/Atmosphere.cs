@@ -7,8 +7,8 @@ public class Atmosphere : MonoBehaviour
     public GameBehavior gameManager;
     public ParticleSystem ParticleCollision;
     private List<string> particles
-        = new List<string> { "methane", "h2o", "o2",
-            "n2", "argon_2", "co2"};
+        = new List<string> { "methane_2(Clone)", "h2o_2(Clone)", "o2_2(Clone)",
+            "n2_2(Clone)", "argon_2(Clone)", "co2_2(Clone)"};
     void Start()
     {
         mesh = GetComponent<MeshRenderer>();
@@ -27,22 +27,22 @@ public class Atmosphere : MonoBehaviour
                 // targets were causing multiple inventory adds,
                 // limiting to one of each particle type.
 
-                case ("o2"):
+                case ("o2_2(Clone)"):
                     gameManager.BalanceEarth +=10 ;
                     break;
-                case ("co2"):
+                case ("co2_2(Clone)"):
                     gameManager.BalanceEarth -=15 ;
                     break;
-                case ("h2o"):
+                case ("h2o_2(Clone)"):
                     gameManager.BalanceEarth -=10;
                     break;
-                case ("n2"):
+                case ("n2_2(Clone)"):
                     gameManager.BalanceEarth +=15;
                     break;
-                case ("methane"):
+                case ("methane_2(Clone)"):
                     gameManager.BalanceEarth -=20;
                     break;
-                case ("argon"):
+                case ("argon_2(Clone)"):
                     gameManager.BalanceEarth +=10;
                     break;
             }
