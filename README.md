@@ -1,6 +1,7 @@
-# Computers for Learning Project: "Climate Change" Educational Game
+# Operation Climate Change
+## Computers for Education - CMSC 309
 
-This is the Project Repository for the "Climate Change" Educational Game
+This is the Project Repository for the "Operation Climate Change" Educational Game
 
 **Work in Progress** :construction_worker:
 
@@ -9,13 +10,12 @@ This is the Project Repository for the "Climate Change" Educational Game
 * Jesica Maria Ramirez Toscano
 
 
-## Summary
+## Summary of Game Design
+Operation Climate Change teaches ten to twelve-year-olds about the social and ecological impacts of global warming.The goal is to provide 10 to 12-year-olds with an understanding of how their behaviors in daily life relate to the global environment. They should develop an ability to change their behaviors and think critically about their community’s impact on climate change.
+This game primarily teaches through its immersive storytelling. The premise of the story develops around our main character: the spy through a time travel journey to discover how climate change destroyed their futuristic community.
+The game progresses through five main missions that cover a learning trajectory beginning with observing the global impact of climate change and ending with the knowledge needed to develop real-world solutions. The gameplay involves a mix of item gathering, simple puzzle solving, action, adventure/battle gameplay, and exploration. The basic gameplay controls stay consistent but solving puzzles become more challenging.
 
-Our game will teach about climate change and related environmental issues. Our goal is to provide 10 to 12-year-olds with an understanding of how their behaviors in daily life relate to the global environment. They should develop an ability to change their behaviors and think critically about their community’s impact on climate change.  
-
-We will cover earth science topics such as greenhouse gas emissions from various sources (e.g. fossil fuels, agriculture, industries), energy production, and the interdependence of natural systems. We will link these topics to social science ideas of capitalism, healthy consumer habits, and collective responsibility.
-
-# Minimal Viable Product: Climate Change Game Prototype
+# Minimal Viable Product: Operation Climate Change Prototype
 
 ## Goals:
 
