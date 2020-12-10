@@ -549,7 +549,14 @@ public class GameBehavior : MonoBehaviour
         }
     }
 
-
+    public uint FirstEver
+    {
+        get { return GoalDict["FirstEver"]; }
+        set
+        {
+            GoalDict["FirstEver"] = value;
+        }
+    }
 
     // Save current progress for next scene load
     public void WriteGoalProgress()
