@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class InstructionButton : MonoBehaviour
 {
     public GameObject Panel;
-    /*
+    
     public GameBehavior gameManager;
+    
     void Start(){
         gameManager = GameObject.Find("GameManager")
             .GetComponent<GameBehavior>();
@@ -19,7 +20,7 @@ public class InstructionButton : MonoBehaviour
         }
         
     }
-    */
+    
     public void OpenPanel(){
         if(Panel != null){
             bool isActive = Panel.activeSelf;
