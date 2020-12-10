@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ProjectParticle : MonoBehaviour
 {
+    public GameBehavior gameManager;
     public GameObject methane;
     public GameObject h2o;
     public GameObject o2;
@@ -27,22 +28,34 @@ public class ProjectParticle : MonoBehaviour
         switch (name)
             {
                 case ("o2"):
+                    if(gameManager.O2 == 0){return;}
                     particle_item = o2;
+                    gameManager.O2 -=1;
                     break;
                 case ("co2"):
+                    if(gameManager.CO2 == 0){return;}
                     particle_item = co2;
+                    gameManager.CO2 -=1;
                     break;
                 case ("h2o"):
+                    if(gameManager.H2O == 0){return;}
                     particle_item = h2o;
+                    gameManager.H2O -=1;
                     break;
                 case ("n2"):
+                    if(gameManager.N2 == 0){return;}
                     particle_item = n2;
+                    gameManager.N2 -=1;
                     break;
                 case ("methane"):
+                    if(gameManager.Methane == 0){return;}
                     particle_item = methane;
+                    gameManager.Methane -=1;
                     break;
                 case ("argon"):
+                    if(gameManager.Argon == 0){return;}
                     particle_item = argon;
+                    gameManager.Argon -=1;
                     break;
             }
         GameObject newParticle_item = Instantiate(particle_item, 

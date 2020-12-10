@@ -3498,7 +3498,7 @@ GameObject:
   - component: {fileID: 2406586269894714455}
   - component: {fileID: 1912492747391516895}
   m_Layer: 5
-  m_Name: quantity
+  m_Name: quantity_Methane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3815,7 +3815,7 @@ GameObject:
   - component: {fileID: 8629745579921549744}
   - component: {fileID: 7537892737010823003}
   m_Layer: 5
-  m_Name: quantity
+  m_Name: quantity_O2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3893,7 +3893,7 @@ GameObject:
   - component: {fileID: 8143814592398561213}
   - component: {fileID: 8519296795799601609}
   m_Layer: 5
-  m_Name: quantity
+  m_Name: quantity_N2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4254,7 +4254,7 @@ GameObject:
   - component: {fileID: 2870190014715680657}
   - component: {fileID: 4479791041812615648}
   m_Layer: 5
-  m_Name: instructions
+  m_Name: instructions_eb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4410,7 +4410,7 @@ GameObject:
   - component: {fileID: 5677953670030913709}
   - component: {fileID: 4997064130198961001}
   m_Layer: 5
-  m_Name: quantity
+  m_Name: quantity_H2O
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4488,7 +4488,7 @@ GameObject:
   - component: {fileID: 8300787643250846522}
   - component: {fileID: 1324730737533966567}
   m_Layer: 5
-  m_Name: quantity
+  m_Name: quantity_Argon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4566,7 +4566,7 @@ GameObject:
   - component: {fileID: 6067049712034968595}
   - component: {fileID: 3188020065793100479}
   m_Layer: 5
-  m_Name: quantity
+  m_Name: quantity_CO2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -2420,6 +2420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labelText: {fileID: 1823720166}
+  instructions_eb: {fileID: 0}
   SpyHealthSlider: {fileID: 258544737}
   SpyHealthColor: {fileID: 471270897}
   SpyGradient:
@@ -2489,6 +2490,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 056c5cb93b0aa41c29bdfc2598aed525, type: 3}
   - {fileID: 21300000, guid: c3417132e684543b8bc97dd5f6c0b8a5, type: 3}
   - {fileID: 21300000, guid: 7ebad10fcb99740918d5d4fef205148e, type: 3}
+  earthPanel: {fileID: 1632957313}
   progressLoaded: 0
 --- !u!4 &768127607
 Transform:
@@ -14741,6 +14743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0958c04d92f48ebb3edf0d513b2b57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 768127606}
   methane: {fileID: 1089231473978760067, guid: 655cddea6fd034a018ebef10135e4727, type: 3}
   h2o: {fileID: 4112073445361730663, guid: a54e1947ff266451c89363ca30d2aa33, type: 3}
   o2: {fileID: 8971685575029724558, guid: 3c8ade779f1f949ecac6404f16a94dfb, type: 3}
@@ -15219,6 +15222,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 188b9e44774a64b17989bd65d8606e57, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba04b8d03f30146f58b58231278be18f, type: 3}
+--- !u!1 &1632957313 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3653033467268157702, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+    type: 3}
+  m_PrefabInstance: {fileID: 1484992436}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1633066426
 PrefabInstance:
   m_ObjectHideFlags: 0
