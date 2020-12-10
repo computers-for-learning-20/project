@@ -58,8 +58,8 @@ public class Atmosphere : MonoBehaviour
     }
 
     void change_athmosphere_colors(){
-        mesh.material.color = gameManager.EarthBalanceColor.color;
-        float metallic_val = gameManager.EarthBalanceSlider.normalizedValue;
+        mesh.material.color = gameManager.EarthGradient.Evaluate(gameManager.BalanceEarth/100f);
+        float metallic_val = gameManager.BalanceEarth/100f;
 
         if(metallic_val < 0.33){
             metallic_val = 1- metallic_val;

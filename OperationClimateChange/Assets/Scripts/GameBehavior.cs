@@ -48,6 +48,7 @@ public class GameBehavior : MonoBehaviour
 
     //Panel Controls
     public GameObject earthPanel;
+    public GameObject instructionsPanel;
 
     // Game Progress Variables
     public bool progressLoaded = false;
@@ -75,17 +76,16 @@ public class GameBehavior : MonoBehaviour
         }
         Debug.Log("game progress loaded");
         progressLoaded = true;
-
-
     }
 
     private void Update()
     {
-        if (progressLoaded == true)
+        if (progressLoaded == true
+            && !SceneManager.GetSceneByName("WarpSequence").isLoaded)
         {
             // Set Prior Health Level
             health_spy = GoalDict["LastHealth"];
-            SpyHealthSlider.value = (int) health_spy; // this line is causing an error
+            SpyHealthSlider.value = (int)health_spy; // this line is causing an error
             SpyHealthColor.color =
                 SpyGradient.Evaluate(SpyHealthSlider.normalizedValue);
 
@@ -102,6 +102,15 @@ public class GameBehavior : MonoBehaviour
 
             progressLoaded = false;
         }
+
+        if (earthPanel.activeSelf
+            && SceneManager.GetSceneByName("Lab").isLoaded)
+        {
+            EarthBalanceSlider.value = this.BalanceEarth;
+            EarthBalanceColor.color =
+            EarthGradient.Evaluate(EarthBalanceSlider.normalizedValue);
+        }
+
     }
 
     private void OnGUI()
@@ -173,16 +182,19 @@ public class GameBehavior : MonoBehaviour
                 {
                     foreach (string particle_name in particle_names)
                     {
-                        string object_name = string.Format("quantity_{0}", particle_name);
+                        string object_name = string.Format("quantity_{0}"
+                            , particle_name);
                         InventoryLabel = GameObject.Find(object_name)
                     .GetComponent<Text>();
-                        InventoryLabel.text = string.Format("{0}/1", GoalDict[particle_name]);
+                        InventoryLabel.text = string.Format("{0}/1",
+                            GoalDict[particle_name]);
                     }
                 }
 
             }
 
-
+            if(instructionsPanel.activeSelf){
+            get_instructionsMessages();}
 
             // Creating win and lose screen buttons
             // Update this to change mission progress
@@ -887,5 +899,102 @@ public class GameBehavior : MonoBehaviour
             }
         }
         return message;
+    }
+
+    
+    private void get_instructionsMessages(){
+        string instruction = "";
+
+        switch (GoalDict["LastGoal"])
+        {
+            case (0):
+                string place = whereIsTheSpy();
+                instruction = string.Format("Welcome spy! You are in the {0}", place);
+                instruction +=" and I need your help to build the time-travel machine."+
+                            " Please find 2 solar panels and 3 baterries similar to the pictures below.";
+                foreach (string item in new List<string> { "solar_panel_icon", "battery_icon"})
+                {
+                    Image img = GameObject.Find(item).GetComponent<Image>();
+                    img.enabled = true;
+                }
+                break;
+
+            case (1):
+                if(SceneManager.GetSceneByName("Lab").isLoaded){
+                    instruction="Great! You are in the lab. Now go to the office area, and meet me with the supplies";
+                }else{
+                instruction = "You are doing great! Now go to the lab."+
+                "And meet me in the office with the supplies..."+
+                "Look for a door into the mountainside to get into the lab.";}
+                foreach (string item in new List<string> { "solar_panel_icon", "battery_icon"})
+                {
+                    Image img = GameObject.Find(item).GetComponent<Image>();
+                    img.enabled = false;
+                }
+                break;
+
+            case (2):
+                if(SceneManager.GetSceneByName("Lab").isLoaded){
+                instruction = "Hi Spy! Now that the time-machine works, your next task is to use "+
+                        "it to travel to California of 2020. I have activated the time-machine button."+
+                        "Just click in the WARP area."; 
+                Image img = GameObject.Find("time_machine_icon").GetComponent<Image>();
+                img.enabled = true;}
+                else if (SceneManager.GetSceneByName("TimeTravelInterface").isLoaded){
+                instruction = "In the Where button choose California, and in the Whene button choose 2020"+
+                    "The mission is to get 6 air samples from there. Be careful with the fires! Save travels friend!";
+                Image img = GameObject.Find("time_machine_icon").GetComponent<Image>();
+                img.enabled = false;}
+                else if(SceneManager.GetSceneByName("ca2020").isLoaded){
+                    instruction = "You are in California of 2020. Some parts are severly damaged by the extreme wildfires."+
+                    " Other parts of California still show healthy signs."+
+                    " Please get 6 air samples from there."+
+                    "Each of them will look like the following particles below.";
+                    GameObject particle_parent =GameObject.Find("particle_parent");
+                    particle_parent.transform.Find("particle_items").gameObject.SetActive(true);
+                }
+                break;
+
+            case (3):
+                break;
+
+            case (4):
+                break;
+            
+
+            case (5):
+                break;
+
+            case (6):
+                break;
+
+            case (7):
+                break;
+
+            case (8):
+                break;
+
+            case (9):
+                break;
+        }
+        Text instruction_component = GameObject.Find("instructions")
+                    .GetComponent<Text>();
+        instruction_component.text = instruction;
+
+    }
+
+    private string whereIsTheSpy(){
+        if(SceneManager.GetSceneByName("Lab").isLoaded){
+            return "Laboratory";
+        }
+        else if(SceneManager.GetSceneByName("outer_2100").isLoaded){
+            return "Outer environment";
+        }
+        else if(SceneManager.GetSceneByName("ca2020").isLoaded){
+            return "California 2020";
+        }
+        else{
+            return "Time-travel Machine";
+        }
     }
 }
