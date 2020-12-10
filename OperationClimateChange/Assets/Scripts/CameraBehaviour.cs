@@ -9,7 +9,7 @@ public class CameraBehaviour : MonoBehaviour
     
     void Start()
     {
-        target = GameObject.Find("Spy").transform;
+        target = GameObject.Find("FocusPoint").transform;
     }
 
     void LateUpdate()

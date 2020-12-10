@@ -74,11 +74,11 @@ public class SpyBehaviour : MonoBehaviour
             }
             else if (Input.GetButtonDown ("Jump")) {
             anim.SetTrigger ("Jump");
-            _rb.AddForce (Vector3.up * jumpVelocity,  ForceMode.Impulse);
+            //_rb.AddForce (Vector3.up * jumpVelocity,  ForceMode.Impulse);
             /*if (Physics.Raycast (transform.position + (Vector3.up * 0.1f), Vector3.down, 
                                 groundDistance, whatIsGround)) {
             anim.SetBool ("grounded", true);
-            anim.applyRootMotion = true;} */
+            anim.applyRootMotion = true;}*/
             }
 
     
@@ -153,7 +153,8 @@ public class SpyBehaviour : MonoBehaviour
 
         //Decrease Spy's health if it collides with fire
         if (other.name == "RovingFlame" ||
-            other.name == "Fire")
+            other.name == "Fire" ||
+            other.name == "ActiveFlame")
         {
                FireCollision.Play();
                if(gameManager.HealthSpy <= 1)

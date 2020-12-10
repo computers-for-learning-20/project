@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/ca2020.unity
+- path: Assets/Scenes/outer_2100.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
