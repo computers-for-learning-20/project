@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8013337679791376654}
   - component: {fileID: 7520632135724089296}
   - component: {fileID: 8194765616126135934}
+  - component: {fileID: 385062787962000438}
   - component: {fileID: 5868944959614584684}
-  - component: {fileID: 6354596011118890802}
   - component: {fileID: 7579591470048613786}
   m_Layer: 0
   m_Name: o2_2
@@ -146,6 +146,19 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &385062787962000438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8971685575029724558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e78196005932141ee8d55c77d38792e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onscreenDelay: 4
 --- !u!135 &5868944959614584684
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -159,20 +172,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6354596011118890802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8971685575029724558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e78196005932141ee8d55c77d38792e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BlastCollision: {fileID: 0}
-  onscreenDelay: 4
 --- !u!54 &7579591470048613786
 Rigidbody:
   m_ObjectHideFlags: 0

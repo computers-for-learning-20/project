@@ -28,7 +28,7 @@ public class Atmosphere : MonoBehaviour
                 // limiting to one of each particle type.
 
                 case ("o2_2(Clone)"):
-                    gameManager.BalanceEarth +=10 ;
+                    gameManager.BalanceEarth +=10;
                     break;
                 case ("co2_2(Clone)"):
                     gameManager.BalanceEarth -=15 ;

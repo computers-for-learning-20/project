@@ -12,7 +12,6 @@ public class GameBehavior : MonoBehaviour
 {
     // UI Panel Message Text
     public Text labelText;
-
     public Text WinOrLoseTitle;
     public Text WinOrLoseDetail;
     public GameObject WinOrLoseBox;
@@ -21,7 +20,6 @@ public class GameBehavior : MonoBehaviour
     public Slider SpyHealthSlider;
     public Image SpyHealthColor;
     public Gradient SpyGradient;
-
     public Slider EarthBalanceSlider;
     public Image EarthBalanceColor;
     public Gradient EarthGradient;
@@ -48,15 +46,22 @@ public class GameBehavior : MonoBehaviour
     private uint target01_imageIdx = 0;
     private uint target02_imageIdx = 1;
 
+    //Panel Controls
+    public GameObject earthPanel;
+
     // Game Progress Variables
     public bool progressLoaded = false;
     private string file = "Assets/Scripts/goals.txt";
     protected Dictionary<string, uint> GoalDict =
         new Dictionary<string, uint>();
+    
     private uint NextGoal;
     private string WinMessage;
     private string LoseMessage;
     
+    private List<string> particle_names
+        = new List<string> { "Methane", "H2O", "O2",
+            "N2", "Argon", "CO2"};
 
     void Start()
     {
@@ -154,6 +159,20 @@ public class GameBehavior : MonoBehaviour
                 InventoryImage.enabled = false;
                 InventoryLabel.text = "";
             }
+
+            
+            if (GoalDict["LastGoal"] >= 3 && earthPanel.activeSelf){
+                foreach (string particle_name in particle_names)
+                {
+                    string object_name = string.Format("quantity_{0}",particle_name);
+                    InventoryLabel = GameObject.Find(object_name)
+                .GetComponent<Text>();
+                    InventoryLabel.text = string.Format("{0}/1", GoalDict[particle_name]);
+                }
+
+            }
+
+
 
             // Creating win and lose screen buttons
             // Update this to change mission progress
@@ -318,7 +337,7 @@ public class GameBehavior : MonoBehaviour
                 Time.timeScale = 0.0f;
                 }
             }
-            else if(change> 0){labelText.text = "Earth getting Warmer!";}
+            else if(change> 0){labelText.text = "Earth getting warmer!";}
             else if(change < 0){labelText.text = "Earth getting colder!";}
             
             EarthBalanceSlider.value = balance_earth;
