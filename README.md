@@ -3,7 +3,7 @@
 
 This is the Project Repository for the "Operation Climate Change" Educational Game
 
-**Work in Progress** :construction_worker:
+Check the video here: https://www.youtube.com/watch?v=t6NQBneGt0I
 
 ## Team Members:
 * Kelsey Anderson
