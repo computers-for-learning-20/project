@@ -71,7 +71,7 @@ public class GameBehavior : MonoBehaviour
         foreach (string line in lines)
         {
             string[] itemInfo = line.Split(' ');
-            GoalDict.Add(itemInfo[0], uint.Parse(itemInfo[1]));
+            GoalDict[itemInfo[0]] = uint.Parse(itemInfo[1]);
         }
         Debug.Log("game progress loaded");
         progressLoaded = true;
@@ -549,7 +549,14 @@ public class GameBehavior : MonoBehaviour
         }
     }
 
-
+    public uint FirstEver
+    {
+        get { return GoalDict["FirstEver"]; }
+        set
+        {
+            GoalDict["FirstEver"] = value;
+        }
+    }
 
     // Save current progress for next scene load
     public void WriteGoalProgress()
