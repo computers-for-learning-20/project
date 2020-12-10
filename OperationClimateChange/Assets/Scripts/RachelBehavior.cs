@@ -15,6 +15,16 @@ public class RachelBehavior : MonoBehaviour
     public Animator RachelAnimator;
     public GameBehavior gameBehavior;
 
+    public GameObject QuizPanel;
+    public GameObject Correct;
+    public GameObject Incorrect;
+    public Toggle h2o;
+    public Toggle co2;
+    public Toggle methane;
+    public Toggle o2;
+    public Toggle nitrogen;
+    public Toggle argon;
+
     // interator for preventing multiple overlapping collisions
     private int count = 0;
 
@@ -30,6 +40,30 @@ public class RachelBehavior : MonoBehaviour
 
         SpeechPanel = GameObject.Find("RachelBubble");
         SpeechPanel.SetActive(false);
+
+        QuizPanel = GameObject.Find("QuizCanvas");
+
+        // find toggles
+        methane = GameObject.Find("q_methane")
+            .GetComponent<Toggle>();
+        o2 = GameObject.Find("q_oxygen")
+            .GetComponent<Toggle>();
+        co2 = GameObject.Find("q_carbondioxide")
+            .GetComponent<Toggle>();
+        argon = GameObject.Find("q_argon")
+            .GetComponent<Toggle>();
+        h2o = GameObject.Find("q_water")
+            .GetComponent<Toggle>();
+        nitrogen = GameObject.Find("q_nitrogen")
+            .GetComponent<Toggle>();
+
+        // find responses
+        Incorrect = GameObject.Find("Wrong");
+        Correct = GameObject.Find("Right");
+
+        Incorrect.SetActive(false);
+        Correct.SetActive(false);
+        QuizPanel.SetActive(false);
 
     }
 
@@ -89,9 +123,8 @@ public class RachelBehavior : MonoBehaviour
                 RachelSpeech.text = "Thanks! I'll take those and get "
                     + "the time machine enabled right away!";
 
-                CollectItems();
-                gameBehavior.ForceGoalClear();
                 gameBehavior.CheckWinCondition();
+                CollectItems();
                 break;
 
             case (2):
@@ -107,16 +140,15 @@ public class RachelBehavior : MonoBehaviour
                     "the sun's light hits the earth's atmosphere. " +
                     "Add these samples from the past to see what happens" +
                     " and report back to me!";
+                gameBehavior.ForceGoalClear();
+                gameBehavior.CheckWinCondition();
                 break;
 
             case (4):
-                RachelSpeech.text = "What did you learn?";
-                // quiz
-
-                // if passed
-                CollectItems();
-                gameBehavior.ForceGoalClear();
-                gameBehavior.CheckWinCondition();
+                RachelSpeech.text = "Time to put what you have" +
+                    " learned into action! Go back to the past and " +
+                    "try to pick only the sample gasses that will balance " +
+                    "our model!";
                 break;
 
             case (5):
@@ -124,31 +156,63 @@ public class RachelBehavior : MonoBehaviour
                     "gasses make the earth hotter? I know! " +
                     "Grab some new samples from the past and " +
                     "try to avoid molecules that make earth too hot.";
+                
                 break;
 
             case (6):
-                RachelSpeech.text = "Great! Which gasses did you avoid?";
-                // quiz
-
-                // if passed
-                CollectItems();
-                gameBehavior.ForceGoalClear();
-                gameBehavior.CheckWinCondition();
+                RachelSpeech.text = "Nice work so far! " +
+                    "Go test your samples and tell me if " +
+                    "the tempurature balances!";
                 break;
 
             case (7):
                 RachelSpeech.text = "That's frustrating..." +
                     "Your samples got all used up. Go get some more." +
                     "Try to avoid stuff that makes the model too red.";
-                CollectItems();
+                
                 break;
 
             case (8):
+                RachelSpeech.enabled = false;
+                QuizPanel.SetActive(true);
+
+                break;
+            case (9):
+                RachelSpeech.enabled = true;
                 RachelSpeech.text = "Fascinating! I wonder what caused " +
                     " there to be so much carbon dioxide and methane " +
                     "in our atmosphere now days...";
                 break;
         }
+    }
+
+    public void CheckQuiz()
+    {
+        if (methane.isOn
+            && !o2.isOn
+            && !nitrogen.isOn
+            && h2o.isOn
+            && co2.isOn
+            && !argon.isOn)
+        {
+            Correct.SetActive(true);
+        }
+        else
+        {
+            Incorrect.SetActive(true);
+        }
+    }
+
+    public void closeQuiz()
+    {
+        QuizPanel.SetActive(false);
+        gameBehavior.ForceGoalClear();
+        gameBehavior.CheckWinCondition();
+    }
+
+    public void closeIncorrect()
+    {
+        Incorrect.SetActive(false);
     }
 
     private void CollectItems()

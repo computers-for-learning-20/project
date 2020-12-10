@@ -23,6 +23,9 @@ public class SpyBehaviour : MonoBehaviour
         = new List<string> { "methane", "h2o", "o2",
             "n2", "argon", "co2"};
 
+    // interator for preventing multiple overlapping collisions
+    private int count = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -91,16 +94,21 @@ public class SpyBehaviour : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision){
-        
+
         // Check for items to collect
-        if (collision.gameObject.name == "battery"
+        if ((collision.gameObject.name == "battery"
             || collision.gameObject.name == "battery_small")
+            && count == 0)
         {
             gameManager.Batteries += 1;
+            count += 1;
         }
 
-        else if (collision.gameObject.name == "solar_panel"){
+        else if (collision.gameObject.name == "solar_panel"
+            && count == 0)
+        {
             gameManager.SolarPanels +=1;
+            count += 1;
         }
 
         else if (collision.gameObject.name == "door_to_lab")
@@ -146,7 +154,14 @@ public class SpyBehaviour : MonoBehaviour
             }
         }
 
+    }
 
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.name == "battery"
+            || collision.gameObject.name == "battery_small"
+            || collision.gameObject.name == "solar_panel")
+        { count = 0; }
     }
 
     void OnParticleCollision(GameObject other){
