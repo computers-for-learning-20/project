@@ -56,14 +56,14 @@ public class GameBehavior : MonoBehaviour
     private string file = "Assets/Scripts/goals.txt";
     protected Dictionary<string, uint> GoalDict =
         new Dictionary<string, uint>();
-    private string file = "Assets/Scripts/goals.txt";
-    private List<string> particle_names
-        = new List<string> { "Methane", "H2O", "O2",
-            "N2", "Argon", "CO2"};
+    
     private uint NextGoal;
     private string WinMessage;
     private string LoseMessage;
     
+    private List<string> particle_names
+        = new List<string> { "Methane", "H2O", "O2",
+            "N2", "Argon", "CO2"};
 
     void Start()
     {
