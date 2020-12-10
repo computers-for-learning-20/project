@@ -34,10 +34,10 @@ public class GameBehavior : MonoBehaviour
     public string target01 = "solar panels";
     public string target02 = "batteries";
 
-    private uint target01_collected = 0;
-    private uint target02_collected = 0;
-    private uint target01_goal = 0;
-    private uint target02_goal = 0;
+    protected uint target01_collected = 0;
+    protected uint target02_collected = 0;
+    protected uint target01_goal = 0;
+    protected uint target02_goal = 0;
 
     private Text InventoryLabel;
     private Image InventoryImage;
@@ -52,7 +52,7 @@ public class GameBehavior : MonoBehaviour
     // Game Progress Variables
     public bool progressLoaded = false;
     private string file = "Assets/Scripts/goals.txt";
-    protected Dictionary<string, uint> GoalDict =
+    protected static Dictionary<string, uint> GoalDict =
         new Dictionary<string, uint>();
     
     private uint NextGoal;
@@ -71,7 +71,7 @@ public class GameBehavior : MonoBehaviour
         foreach (string line in lines)
         {
             string[] itemInfo = line.Split(' ');
-            GoalDict.Add(itemInfo[0], uint.Parse(itemInfo[1]));
+            GoalDict[itemInfo[0]] = uint.Parse(itemInfo[1]);
         }
         Debug.Log("game progress loaded");
         progressLoaded = true;
@@ -232,7 +232,7 @@ public class GameBehavior : MonoBehaviour
         }
     }
 
-    private void CheckWinCondition()
+    protected void CheckWinCondition()
     {
         // function for advancing the scene
 	    GetMessageText();
