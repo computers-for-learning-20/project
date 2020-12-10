@@ -34,10 +34,10 @@ public class GameBehavior : MonoBehaviour
     public string target01 = "solar panels";
     public string target02 = "batteries";
 
-    protected uint target01_collected = 0;
-    protected uint target02_collected = 0;
-    protected uint target01_goal = 0;
-    protected uint target02_goal = 0;
+    private uint target01_collected = 0;
+    private uint target02_collected = 0;
+    private uint target01_goal = 0;
+    private uint target02_goal = 0;
 
     private Text InventoryLabel;
     private Image InventoryImage;
@@ -53,7 +53,7 @@ public class GameBehavior : MonoBehaviour
     // Game Progress Variables
     public bool progressLoaded = false;
     private string file = "Assets/Scripts/goals.txt";
-    protected static Dictionary<string, uint> GoalDict =
+    private Dictionary<string, uint> GoalDict =
         new Dictionary<string, uint>();
     
     private uint NextGoal;
@@ -72,8 +72,7 @@ public class GameBehavior : MonoBehaviour
         foreach (string line in lines)
         {
             string[] itemInfo = line.Split(' ');
-            GoalDict[itemInfo[0]] = uint.Parse(itemInfo[1]);
-            Debug.Log(itemInfo[0]);
+            GoalDict.Add(itemInfo[0], uint.Parse(itemInfo[1]));
         }
         Debug.Log("game progress loaded");
         progressLoaded = true;
@@ -240,14 +239,13 @@ public class GameBehavior : MonoBehaviour
         }
     }
 
-    protected void CheckWinCondition()
+    public void CheckWinCondition()
     {
         // function for advancing the scene
-	    GetMessageText();
-
         if (target01_collected == target01_goal
             && target02_collected == target02_goal)
         {
+            Debug.Log("Show Win Screen");
             winScreenShow = true;
             Time.timeScale = 0.0f;
             
@@ -287,6 +285,14 @@ public class GameBehavior : MonoBehaviour
         GoalDict["H2O"] = 0;
         WriteGoalProgress();
         SceneManager.LoadScene(0);
+    }
+
+    public void ForceGoalClear()
+    {
+        target01_collected = 0;
+        target01_goal = 0;
+        target02_collected = 0;
+        target02_goal = 0;
     }
 
     public void GoToTimeMachine()
@@ -354,6 +360,9 @@ public class GameBehavior : MonoBehaviour
 
         }
     }
+
+    public uint ProgressPoint
+    { get { return GoalDict["LastGoal"]; } }
 
     public uint SolarPanels
     {
