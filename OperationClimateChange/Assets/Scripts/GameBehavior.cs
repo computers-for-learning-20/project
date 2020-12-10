@@ -939,9 +939,9 @@ public class GameBehavior : MonoBehaviour
                 Image img = GameObject.Find("time_machine_icon").GetComponent<Image>();
                 img.enabled = false;}
                 else if(SceneManager.GetSceneByName("ca2020").isLoaded){
-                    instruction = "You are in California of 2020. Some parts are severly damages by the extreme wildfires."+
+                    instruction = "You are in California of 2020. Some parts are severly damaged by the extreme wildfires."+
                     " Other parts of California still show healthy signs."+
-                    "Please get 6 air samples from there."+
+                    " Please get 6 air samples from there."+
                     "Each of them will look like the following particles below.";
                     GameObject particle_parent =GameObject.Find("particle_parent");
                     particle_parent.transform.Find("particle_items").gameObject.SetActive(true);

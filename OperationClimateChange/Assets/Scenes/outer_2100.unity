@@ -7018,6 +7018,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 716849914}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &747482979 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3585298166208899774, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+    type: 3}
+  m_PrefabInstance: {fileID: 2027869820}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &751734124
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7806,6 +7812,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64b3f36e835346747865afbf6cf62acf, type: 3}
+--- !u!1 &943627304 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3653033467268157702, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+    type: 3}
+  m_PrefabInstance: {fileID: 2027869820}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &964206540
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13368,7 +13380,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 056c5cb93b0aa41c29bdfc2598aed525, type: 3}
   - {fileID: 21300000, guid: c3417132e684543b8bc97dd5f6c0b8a5, type: 3}
   - {fileID: 21300000, guid: 7ebad10fcb99740918d5d4fef205148e, type: 3}
-  earthPanel: {fileID: 0}
+  earthPanel: {fileID: 943627304}
+  instructionsPanel: {fileID: 747482979}
   progressLoaded: 0
 --- !u!4 &1241918698
 Transform:
@@ -24844,6 +24857,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TopPanelUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3585298166208899774, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8406057302884304852, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
         type: 3}

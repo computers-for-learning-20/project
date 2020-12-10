@@ -1,9 +1,5 @@
 sceneSetups:
-<<<<<<< HEAD
-- path: Assets/Scenes/Lab.unity
-=======
 - path: Assets/Scenes/ca2020.unity
->>>>>>> b03e7cfbb55b7475998f58bf831625b413ab1ca1
   isLoaded: 1
   isActive: 1
   isSubScene: 0
