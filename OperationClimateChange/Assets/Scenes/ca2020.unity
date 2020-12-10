@@ -7709,6 +7709,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labelText: {fileID: 1148147801}
+  WinOrLoseTitle: {fileID: 1666663991677164756}
+  WinOrLoseDetail: {fileID: 1666663991677164757}
+  WinOrLoseBox: {fileID: 1666663991677164758}
   SpyHealthSlider: {fileID: 678578335}
   SpyHealthColor: {fileID: 1838819719}
   SpyGradient:
@@ -12791,6 +12794,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 589f7a0efbecc4d9983f8857a8f2dc99, type: 3}
+--- !u!114 &1666663991677164756 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5646981062081254660, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+    type: 3}
+  m_PrefabInstance: {fileID: 1666663991677164755}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1666663991677164757 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6462541427728741506, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+    type: 3}
+  m_PrefabInstance: {fileID: 1666663991677164755}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1666663991677164758 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3303125901469823263, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+    type: 3}
+  m_PrefabInstance: {fileID: 1666663991677164755}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1779086911583238071
 PrefabInstance:
   m_ObjectHideFlags: 0

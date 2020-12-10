@@ -13,6 +13,10 @@ public class GameBehavior : MonoBehaviour
     // UI Panel Message Text
     public Text labelText;
 
+    public Text WinOrLoseTitle;
+    public Text WinOrLoseDetail;
+    public GameObject WinOrLoseBox;
+
     // Health Related Variables
     public Slider SpyHealthSlider;
     public Image SpyHealthColor;
@@ -46,9 +50,12 @@ public class GameBehavior : MonoBehaviour
 
     // Game Progress Variables
     public bool progressLoaded = false;
+    private string file = "Assets/Scripts/goals.txt";
     protected Dictionary<string, uint> GoalDict =
         new Dictionary<string, uint>();
-    private string file = "Assets/Scripts/goals.txt";
+    private uint NextGoal;
+    private string WinMessage;
+    private string LoseMessage;
     
 
     void Start()
@@ -153,29 +160,55 @@ public class GameBehavior : MonoBehaviour
             // Save and Update mission message
             if (winScreenShow)
             {
-                if (GUI.Button(new Rect(Screen.width / 2 - 250,
-                    Screen.height / 2 - 50, 500, 100),
-                    "You Completed the Mission Task! (Click to Continue)"))
-                {
-                    GoalDict["LastGoal"] += 1;
-                    health_spy = 100;
-                    WriteGoalProgress();
+                WinOrLoseBox.SetActive(true);
+                WinOrLoseTitle.text = ": : : :  SUCESS!  : : : :";
+                WinOrLoseDetail.text = WinMessage;
 
-                    GetMessageText();
-                    
-                    Time.timeScale = 1.0f;
-                    
-                }
+                Button WinOrLoseButton = GameObject.Find("WinOrLose")
+                    .GetComponent<Button>();
+
+                GoalDict["LastGoal"] = NextGoal;
+                health_spy = 100;
+                WriteGoalProgress();
+                GetMessageText();
+
+                WinOrLoseButton.onClick.AddListener(
+                    delegate {
+
+                        winScreenShow = false;
+
+                        if (GoalDict["LastGoal"] == 9)
+                        { ResetGame(); }
+                        else
+                        { 
+                            Time.timeScale = 1.0f;
+                            WinOrLoseBox.SetActive(false);
+                        }
+                    });
             }
 
             if (loseScreenShow)
             {
-                if (GUI.Button(new Rect(Screen.width / 2 - 250,
-                    Screen.height / 2 - 50, 500, 100),
-                    "Oh no! You've lost! (Click to restart)"))
-                {
-                    RestartLevel();
-                }
+                WinOrLoseBox.SetActive(true);
+                WinOrLoseTitle.text = ": : : :  TRY AGAIN  : : : :";
+                WinOrLoseDetail.text = LoseMessage;
+
+                Button WinOrLoseButton = GameObject.Find("WinOrLose")
+                    .GetComponent<Button>();
+
+                WinOrLoseButton.onClick.AddListener(
+                    delegate {
+
+                        loseScreenShow = false;
+
+                        if (GoalDict["LastGoal"] == 9)
+                        { ResetGame(); }
+                        else
+                        {
+                            RestartLevel();
+                            WinOrLoseBox.SetActive(false);
+                        }
+                    });
             }
         }
     }
@@ -201,8 +234,32 @@ public class GameBehavior : MonoBehaviour
         health_spy = 100;
         balance_earth = 50;
         WriteGoalProgress();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
         Time.timeScale = 1.0f;
+    }
+
+    // erase all game progress and start over
+    private void ResetGame()
+    {
+        GoalDict["FirstEver"] = 1;
+        GoalDict["BalanceEarth"] = 50;
+        GoalDict["LastHealth"] = 100;
+        GoalDict["CurrentPlace"] = 0;
+        GoalDict["LastGoal"] = 0;
+        GoalDict["TestTubes"] = 6;
+        GoalDict["SolarPanels"] = 0;
+        GoalDict["Batteries"] = 0;
+        GoalDict["CO2"] = 0;
+        GoalDict["Argon"] = 0;
+        GoalDict["N2"] = 0;
+        GoalDict["O2"] = 0;
+        GoalDict["Methane"] = 0;
+        GoalDict["Samples"] = 0;
+        GoalDict["H2O"] = 0;
+        WriteGoalProgress();
+        SceneManager.LoadScene(0);
     }
 
     public void GoToTimeMachine()
@@ -503,6 +560,9 @@ public class GameBehavior : MonoBehaviour
     // Get Correct Mission Message
     private void GetMessageText()
     {
+        NextGoal = Math.Min(GoalDict["LastGoal"] + 1,
+            9);
+
         switch (GoalDict["LastGoal"])
         {
             case (0):
@@ -521,6 +581,14 @@ public class GameBehavior : MonoBehaviour
                 "and {2} {3}. Avoid the fires!",
                 target01_goal, target01,
                 target02_goal, target02);
+
+                WinMessage = "Mission Zero Complete! " +
+                    "Good job! Rachel can fix the time machine now. " +
+                    "Deliver the supplies you collected " +
+                    "to her underground lab. Click to continue.";
+
+                LoseMessage = "Oh no... you weren't able to get everything. " +
+                    "Click to try again!";
                 break;
 
             case (1):
@@ -536,6 +604,14 @@ public class GameBehavior : MonoBehaviour
 
                 labelText.text = "MISSION TASK: Go see Rachel " +
                     "and deliver those supplies!";
+
+                WinMessage = "Start Mission One! Task 1 of 3: " +
+                    "Use the time machine to travel to the past " +
+                    "and collect air samples for analysis. Click to continue.";
+
+                LoseMessage = "Are you having trouble finding Rachel? " +
+                    "Look for a door into the mountainside. " +
+                    "Click to try again.";
                 break;
 
             case (2):
@@ -553,6 +629,13 @@ public class GameBehavior : MonoBehaviour
                     "MISSION TASK: Collect {0} {1} "
                     + "from the past. Avoid the fires!",
                     target01_goal, target01);
+
+                WinMessage = "Mission One: Task 1 of 3 complete! " +
+                    "Bring your samples back to Rachel to start " +
+                    "task 2. Click to continue.";
+
+                LoseMessage = "Oh no... you weren't able to get everything. " +
+                    "Click to try again!";
                 break;
 
             case (3):
@@ -568,10 +651,17 @@ public class GameBehavior : MonoBehaviour
 
                 labelText.text = "MISSION TASK: Go back to "
                     + "Rachel with the samples.";
+
+                WinMessage = "Start Mission One: Task 2 of 3: " +
+                    "Find the earth atmoshere simulator in the lab " +
+                    "and test your air samples.";
+
+                LoseMessage = "Having trouble leaving the past? " +
+                    "Use the WARP button in your inventory at the bottom-right. " +
+                    "Click to try again!";
                 break;
 
             case (4):
-            case (8):
                 // possible addition of image/inventory
                 target01 = "lab puzzle";
                 target01_collected = 0;
@@ -584,10 +674,17 @@ public class GameBehavior : MonoBehaviour
                 labelText.text = "MISSION TASK: "
                     + "Talk with Rachel about "
                     + "the simulation results.";
+
+                WinMessage = "Mission One: Task 2 of 3 Complete! " +
+                    "Go tell Rachel what you observed!";
+
+                LoseMessage = "Having trouble finding the earth simualtor? " +
+                    "It is in the lab in 2100 near the time machine room." +
+                    " Click to try again!";
                 break;
+            
 
             case (5):
-            case (7):
                 target01 = "air samples";
                 target01_collected = GoalDict["Samples"];
                 target01_goal = 4;
@@ -602,6 +699,12 @@ public class GameBehavior : MonoBehaviour
                     "MISSION TASK: Collect {0} {1} " +
                     "from the past. Try for good balance!",
                     target01_goal, target01);
+
+                WinMessage = "Mission Two: Task 1 of 3 Complete! " +
+                    "Go try your collected samples out in the simulator!";
+
+                LoseMessage = "Oh no! You weren't able to get the samples." +
+                    " Click to try again!";
                 break;
 
             case (6):
@@ -617,6 +720,56 @@ public class GameBehavior : MonoBehaviour
 
                 labelText.text = "MISSION TASK: "
                     + "Head back to the lab to test your samples!";
+
+                WinMessage = "Mission Two: Task 2 of 3 Complete! " +
+                    "Go tell Rachel what you learned!";
+
+                LoseMessage = "Oh no! Earth can't get too hot or too " +
+                    "cold. Watch what each kind of gas molecule does " +
+                    "on the earth balance meter. " +
+                    "Click to try again!";
+                break;
+
+            case (7):
+                target01 = "air samples";
+                target01_collected = GoalDict["Samples"];
+                target01_goal = 4;
+                target01_imageIdx = 3;
+
+                target02 = "test tubes";
+                target02_collected = 4 - target01_collected;
+                target02_goal = 0;
+                target02_imageIdx = 2;
+
+                labelText.text = string.Format(
+                    "MISSION TASK: Collect {0} {1} " +
+                    "from the past. Try for good balance!",
+                    target01_goal, target01);
+
+                WinMessage = "Mission Two: Task 1 of 3 completed again! " +
+                    "Go try your newly collected samples out in the simulator!";
+
+                LoseMessage = "Oh no! Click to try again!";
+                break;
+
+            case (8):
+                // possible addition of image/inventory
+                target01 = "lab puzzle";
+                target01_collected = 0;
+                target01_goal = 1;
+
+                target02 = "none";
+                target02_collected = 0;
+                target02_goal = 0;
+
+                labelText.text = "MISSION TASK: "
+                    + "Talk with Rachel about "
+                    + "the simulation results.";
+
+                WinMessage = "Mission Two: Task 3 of 3 Complete! " +
+                    "Nice Job! You have completed the game demo!";
+
+                LoseMessage = "Click to try again!";
                 break;
 
             case (9):
@@ -628,7 +781,9 @@ public class GameBehavior : MonoBehaviour
                 target02_collected = 0;
                 target02_goal = 0;
 
-                labelText.text = "CONGRATS: You finished the game demo!";
+                labelText.text = "CONGRATS! You finished the game demo!";
+                WinMessage = "Click to reset the game.";
+                LoseMessage = "Click to reset the game.";
                 break;
         }
 

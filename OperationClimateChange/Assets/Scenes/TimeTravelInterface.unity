@@ -2075,6 +2075,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labelText: {fileID: 289792756}
+  WinOrLoseTitle: {fileID: 1511015631}
+  WinOrLoseDetail: {fileID: 1511015630}
+  WinOrLoseBox: {fileID: 1511015629}
   SpyHealthSlider: {fileID: 1363529078}
   SpyHealthColor: {fileID: 1640094874}
   SpyGradient:
@@ -2140,6 +2143,7 @@ MonoBehaviour:
   target01: solar panels
   target02: batteries
   spriteArray: []
+  progressLoaded: 0
 --- !u!4 &1090107048
 Transform:
   m_ObjectHideFlags: 0
@@ -2954,6 +2958,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 589f7a0efbecc4d9983f8857a8f2dc99, type: 3}
+--- !u!1 &1511015629 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3303125901469823263, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+    type: 3}
+  m_PrefabInstance: {fileID: 1511015628}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1511015630 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6462541427728741506, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+    type: 3}
+  m_PrefabInstance: {fileID: 1511015628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1511015631 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5646981062081254660, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+    type: 3}
+  m_PrefabInstance: {fileID: 1511015628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1571113682
 GameObject:
   m_ObjectHideFlags: 0
