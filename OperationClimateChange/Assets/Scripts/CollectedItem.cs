@@ -8,6 +8,10 @@ public class CollectedItem : MonoBehaviour
     public ParticleSystem ItemCollision;
     public GameBehavior gameManager;
 
+    // interator for preventing multiple overlapping collisions
+    private int count = 0;
+
+
     void Start()
     {
         gameManager = GameObject.Find("GameManager")
@@ -16,10 +20,12 @@ public class CollectedItem : MonoBehaviour
     }
     void OnCollisionEnter(Collision collision)
     {
-        //Put collision code here
-        if (collision.gameObject.name == "Spy")
+        //Collision code
+        if (collision.gameObject.name == "Spy" && count == 0)
         {
             ItemCollision.Play();
+            count += 1;
+
             // removed the collected item
             Destroy(this.transform.gameObject);
         }

@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class RachelBehavior : MonoBehaviour
 {
-
-    // turn towards player attributes
-    private Transform target;
-
     // speech attributes
     private uint ProgressPoint;
     private bool MessagePlayed = false;
@@ -18,6 +14,9 @@ public class RachelBehavior : MonoBehaviour
     // game assets
     public Animator RachelAnimator;
     public GameBehavior gameBehavior;
+
+    // interator for preventing multiple overlapping collisions
+    private int count = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -32,8 +31,6 @@ public class RachelBehavior : MonoBehaviour
         SpeechPanel = GameObject.Find("RachelBubble");
         SpeechPanel.SetActive(false);
 
-        // finding the player
-        target = GameObject.Find("Spy").transform;
     }
 
     // Update is called once per frame
@@ -44,22 +41,24 @@ public class RachelBehavior : MonoBehaviour
             RachelAnimator = GameObject.Find("RachelCarson")
                 .GetComponent<Animator>();
             RachelAnimator.SetBool("HasSpeech", true);
+            count = 0;
         }
 
-    }
-
-    private void LateUpdate()
-    {
-        this.transform.LookAt(target);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "Spy")
         {
-            PlayMessage();
-            RachelAnimator.SetBool("HasSpeech", false);
-            MessagePlayed = true;
+            SpeechPanel.SetActive(true);
+
+            if (count == 0)
+            { 
+                PlayMessage();
+                RachelAnimator.SetBool("HasSpeech", false);
+                MessagePlayed = true;
+                count += 1;
+            }
         }
     }
 
@@ -67,9 +66,9 @@ public class RachelBehavior : MonoBehaviour
     {
         if (other.gameObject.name == "Spy")
         {
+            Debug.Log(string.Format("the collision count is {0}", count));
             RachelSpeech.text = "How's it going?";
             SpeechPanel.SetActive(false);
-            
         }
     }
 
@@ -77,8 +76,6 @@ public class RachelBehavior : MonoBehaviour
     {
         // Finding game progress for message
         ProgressPoint = gameBehavior.ProgressPoint;
-
-        SpeechPanel.SetActive(true);
 
         switch (ProgressPoint)
         {
@@ -89,7 +86,7 @@ public class RachelBehavior : MonoBehaviour
                 break;
 
             case (1):
-                RachelSpeech.text = "Thanks! I'll take those and get"
+                RachelSpeech.text = "Thanks! I'll take those and get "
                     + "the time machine enabled right away!";
 
                 CollectItems();

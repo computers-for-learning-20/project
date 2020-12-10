@@ -6,9 +6,14 @@ public class Atmosphere : MonoBehaviour
     MeshRenderer mesh;
     public GameBehavior gameManager;
     public ParticleSystem ParticleCollision;
+
     private List<string> particles
         = new List<string> { "methane_2(Clone)", "h2o_2(Clone)", "o2_2(Clone)",
             "n2_2(Clone)", "argon_2(Clone)", "co2_2(Clone)"};
+
+    // interator for preventing multiple overlapping collisions
+    public int count = 0;
+
     void Start()
     {
         mesh = GetComponent<MeshRenderer>();
@@ -19,7 +24,7 @@ public class Atmosphere : MonoBehaviour
 
     void OnCollisionEnter(Collision collision){
         //Change Earth's balance if it collides with any particle
-        if (particles.Contains(collision.gameObject.name))
+        if (particles.Contains(collision.gameObject.name) && count == 0)
         {
             switch (collision.gameObject.name)
             {
@@ -48,6 +53,7 @@ public class Atmosphere : MonoBehaviour
             }
             change_athmosphere_colors();
             ParticleCollision.Play();
+            count += 1;
         }
     }
 
