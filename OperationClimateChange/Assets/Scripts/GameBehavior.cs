@@ -12,8 +12,6 @@ public class GameBehavior : MonoBehaviour
 {
     // UI Panel Message Text
     public Text labelText;
-    public Text instructions_eb;
-
     public Text WinOrLoseTitle;
     public Text WinOrLoseDetail;
     public GameObject WinOrLoseBox;
