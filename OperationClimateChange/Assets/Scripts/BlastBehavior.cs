@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlastBehavior : MonoBehaviour
 {
-    public ParticleSystem BlastCollision;
+    //public ParticleSystem BlastCollision;
     public float onscreenDelay = 4f;
 
     void Start()
@@ -19,7 +19,7 @@ public class BlastBehavior : MonoBehaviour
        if (collision.gameObject.name == "atmosphere")
         {
 
-            BlastCollision.Play();
+            //BlastCollision.Play();
             Destroy(this.transform.gameObject);
         }
     }

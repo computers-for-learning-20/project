@@ -1,11 +1,11 @@
-FirstEver 1
-LastHealth 100
+FirstEver 0
+LastHealth 20
 BalanceEarth 50
 CurrentPlace 0
-LastGoal 0
-TestTubes 6
-SolarPanels 0
-Batteries 0
+LastGoal 1
+TestTubes 0
+SolarPanels 2
+Batteries 3
 CO2 0
 Argon 0
 N2 0

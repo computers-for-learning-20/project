@@ -309,8 +309,8 @@ public class GameBehavior : MonoBehaviour
             {
                 if(GoalDict["LastGoal"] < 5){ 
                 //Change balance earth model to be in less extreme ranges
-                    if(change > 0){balance_earth  = 20;}
-                    else{balance_earth=80;}
+                    if(change > 0){balance_earth  = 5;}
+                    else{balance_earth=95;}
                 }
                 else{
                 labelText.text = "Oh no, Earth Model failed!";

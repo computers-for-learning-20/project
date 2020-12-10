@@ -12662,6 +12662,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1666663990842216828, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1666663990851909828, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -12782,15 +12787,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: TopPanelUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3653033467268157702, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6536506378751205484, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+        type: 3}
+      propertyPath: m_Name
+      value: title
+      objectReference: {fileID: 0}
     - target: {fileID: 8406057302884304852, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8406057302884304852, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 589f7a0efbecc4d9983f8857a8f2dc99, type: 3}
