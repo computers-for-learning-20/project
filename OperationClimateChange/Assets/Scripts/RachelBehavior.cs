@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class RachelBehavior : MonoBehaviour
 {
     // speech attributes
-    private uint ProgressPoint;
+    private int ProgressPoint;
     private bool MessagePlayed = false;
     public Text RachelSpeech;
     public GameObject SpeechPanel;
@@ -100,7 +100,6 @@ public class RachelBehavior : MonoBehaviour
     {
         if (other.gameObject.name == "Spy")
         {
-            Debug.Log(string.Format("the collision count is {0}", count));
             RachelSpeech.text = "How's it going?";
             SpeechPanel.SetActive(false);
         }
@@ -140,15 +139,23 @@ public class RachelBehavior : MonoBehaviour
                     "the sun's light hits the earth's atmosphere. " +
                     "Add these samples from the past to see what happens" +
                     " and report back to me!";
-                gameBehavior.ForceGoalClear();
                 gameBehavior.CheckWinCondition();
                 break;
 
             case (4):
-                RachelSpeech.text = "Time to put what you have" +
-                    " learned into action! Go back to the past and " +
-                    "try to pick only the sample gasses that will balance " +
-                    "our model!";
+
+                if ( gameBehavior.SumOfGasses() == 0)
+                { 
+                RachelSpeech.text = "Interesting! So some kinds of " +
+                    "molecules in the air trap more heat on earth than" +
+                    " others... I wonder which ones do what!";
+                    gameBehavior.CheckWinCondition();
+                }
+                else
+                {
+                    RachelSpeech.text = "Did you find the model and try out " +
+                        " all your samples?";
+                }
                 break;
 
             case (5):
@@ -169,7 +176,6 @@ public class RachelBehavior : MonoBehaviour
                 RachelSpeech.text = "That's frustrating..." +
                     "Your samples got all used up. Go get some more." +
                     "Try to avoid stuff that makes the model too red.";
-                
                 break;
 
             case (8):
@@ -206,7 +212,6 @@ public class RachelBehavior : MonoBehaviour
     public void closeQuiz()
     {
         QuizPanel.SetActive(false);
-        gameBehavior.ForceGoalClear();
         gameBehavior.CheckWinCondition();
     }
 

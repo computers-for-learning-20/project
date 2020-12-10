@@ -31,24 +31,36 @@ public class GameBehavior : MonoBehaviour
     
 
     // Inventory Related Variables
-    public string target01 = "solar panels";
-    public string target02 = "batteries";
+    private int solar_panels = 0;
+    private int batteries = 0;
+    private int TestTubes = 0;
+    private int methane = 0;
+    private int h2o = 0;
+    private int co2 = 0;
+    private int argon = 0;
+    private int o2 = 0;
+    private int n2 = 0;
+    private uint currentplace = 0;
 
-    private uint target01_collected = 0;
-    private uint target02_collected = 0;
-    private uint target01_goal = 0;
-    private uint target02_goal = 0;
+    private int target01_goal = 0;
+    private int target02_goal = 0;
+    private int target01_collected = 0;
+    private int target02_collected = 0;
+    private int lastGoal;
 
     private Text InventoryLabel;
     private Image InventoryImage;
     
     public Sprite[] spriteArray;
+    public string target01 = "solar panels";
+    public string target02 = "batteries";
     private uint target01_imageIdx = 0;
     private uint target02_imageIdx = 1;
 
     //Panel Controls
     public GameObject earthPanel;
     public GameObject instructionsPanel;
+    public uint FirstEver = 1;
 
     // Game Progress Variables
     public bool progressLoaded = false;
@@ -58,15 +70,15 @@ public class GameBehavior : MonoBehaviour
     
     private string WinMessage;
     private string LoseMessage;
-    
+    private int count = 0;
+
     private List<string> particle_names
         = new List<string> { "Methane", "H2O", "O2",
             "N2", "Argon", "CO2"};
-    private List<uint> levelsThatCountDown
-        = new List<uint> {4, 6, 8};
 
     void Start()
     {
+
         // Read in file lines to make progress dictionary
         string[] lines = File.ReadAllLines(@file);
         
@@ -75,29 +87,62 @@ public class GameBehavior : MonoBehaviour
             string[] itemInfo = line.Split(' ');
             GoalDict.Add(itemInfo[0], uint.Parse(itemInfo[1]));
         }
+
         Debug.Log("game progress loaded");
         progressLoaded = true;
 
-        if(GoalDict["FirstEver"] == 1){
-            instructionsPanel.SetActive(true);
-        }
-    }
+        if (FirstEver == 1)
+        { instructionsPanel.SetActive(true); }
 
+        // Load Correct Scene Items
+        if (SceneManager.GetSceneByName("Lab").isLoaded)
+        {
+            if (lastGoal >= 3 && earthPanel.activeSelf)
+            {
+                foreach (string particle_name in particle_names)
+                {
+                    string object_name = string.Format("quantity_{0}"
+                        , particle_name);
+                    InventoryLabel = GameObject.Find(object_name)
+                .GetComponent<Text>();
+                    InventoryLabel.text = string.Format("{0}/1",
+                        GoalDict[particle_name]);
+                }
+            }
+
+        }
+
+    }
+    
     private void Update()
     {
+
         if (progressLoaded == true
-            && !SceneManager.GetSceneByName("WarpSequence").isLoaded)
+            && !SceneManager.GetSceneByName("WarpSequence").isLoaded
+            && FirstEver == 1)
         {
 
             // Set Prior Health Level
             health_spy = GoalDict["LastHealth"];
-            SpyHealthSlider.value = (int)health_spy; // this line is causing an error
+            SpyHealthSlider.value = (int)health_spy;
             SpyHealthColor.color =
                 SpyGradient.Evaluate(SpyHealthSlider.normalizedValue);
 
             EarthBalanceSlider.value = balance_earth;
             EarthBalanceColor.color =
                 EarthGradient.Evaluate(EarthBalanceSlider.normalizedValue);
+
+            solar_panels = (int)GoalDict["SolarPanels"];
+            lastGoal = (int) GoalDict["LastGoal"];
+            TestTubes = (int)GoalDict["TestTubes"];
+            solar_panels = (int) GoalDict["SolarPanels"];
+            batteries = (int) GoalDict["Batteries"];
+            co2 = (int) GoalDict["CO2"];
+            Argon = (int) GoalDict["Argon"];
+            n2 = (int) GoalDict["N2"];
+            o2 = (int) GoalDict["O2"];
+            methane = (int) GoalDict["Methane"];
+            h2o = (int) GoalDict["H2O"];
 
             // Set Mission Reminder Text
             GetMessageText();
@@ -114,7 +159,8 @@ public class GameBehavior : MonoBehaviour
         {
             EarthBalanceSlider.value = this.BalanceEarth;
             EarthBalanceColor.color =
-            EarthGradient.Evaluate(EarthBalanceSlider.normalizedValue);
+                EarthGradient.Evaluate(EarthBalanceSlider
+                .normalizedValue);
         }
 
     }
@@ -129,7 +175,7 @@ public class GameBehavior : MonoBehaviour
             Text warpLabel = GameObject.Find("TMText")
                 .GetComponent<Text>();
 
-            if (GoalDict["LastGoal"] < 2)
+            if (lastGoal < 2)
             {
                 warp.interactable = false;
                 warpLabel.color = new Color(0f, 0f, 0f, 1f);
@@ -171,7 +217,7 @@ public class GameBehavior : MonoBehaviour
             {
                 InventoryImage.enabled = true;
 
-                uint denom = target02_goal;
+                int denom = target02_goal;
                 if (target02 == "test tubes")
                 { denom = target01_goal; }
                 else if (target02 == "air samples")
@@ -186,23 +232,6 @@ public class GameBehavior : MonoBehaviour
                 InventoryLabel.text = "";
             }
 
-            // Load Correct Scene Items
-            if (SceneManager.GetSceneByName("Lab").isLoaded)
-            {
-                if (GoalDict["LastGoal"] >= 3 && earthPanel.activeSelf)
-                {
-                    foreach (string particle_name in particle_names)
-                    {
-                        string object_name = string.Format("quantity_{0}"
-                            , particle_name);
-                        InventoryLabel = GameObject.Find(object_name)
-                    .GetComponent<Text>();
-                        InventoryLabel.text = string.Format("{0}/1",
-                            GoalDict[particle_name]);
-                    }
-                }
-
-            }
 
             if(instructionsPanel.activeSelf){
             get_instructionsMessages();}
@@ -212,6 +241,7 @@ public class GameBehavior : MonoBehaviour
             // Save and Update mission message
             if (winScreenShow)
             {
+
                 WinOrLoseBox.SetActive(true);
                 WinOrLoseTitle.text = ": : : :  SUCCESS!  : : : :";
                 WinOrLoseDetail.text = WinMessage;
@@ -226,12 +256,19 @@ public class GameBehavior : MonoBehaviour
 
                         winScreenShow = false;
 
-                        if (GoalDict["LastGoal"] == 9)
-                        { ResetGame(); }
-                        else
-                        { 
-                            Time.timeScale = 1.0f;
-                            WinOrLoseBox.SetActive(false);
+                        if (count == 0)
+                        {
+                            if (lastGoal == 9)
+                            { ResetGame(); }
+                            else
+                            {
+                                Time.timeScale = 1.0f;
+                                WinOrLoseBox.SetActive(false);
+                                WriteGoalProgress();
+                                SetNextGoal();
+                                GetMessageText();
+                                count += 1;
+                            }
                         }
                     });
             }
@@ -250,7 +287,7 @@ public class GameBehavior : MonoBehaviour
 
                         loseScreenShow = false;
 
-                        if (GoalDict["LastGoal"] == 9)
+                        if (lastGoal == 9)
                         { ResetGame(); }
                         else
                         {
@@ -264,23 +301,36 @@ public class GameBehavior : MonoBehaviour
 
     public void CheckWinCondition()
     {
-        // function for advancing the scene
-        if (target01_collected == target01_goal
-            && target02_collected == target02_goal)
+        Debug.Log("Show Win Screen");
+        count = 0;
+        winScreenShow = true;
+        Time.timeScale = 0.0f;
+
+    }
+
+    public void SetNextGoal()
+    {
+        // function for advancing the goal
+        switch (lastGoal)
         {
-            Debug.Log("Show Win Screen");
-            if (GoalDict["LastGoal"] == 6)
-            { GoalDict["LastGoal"] = GoalDict["LastGoal"] + 2; }
-            else if (GoalDict["LastGoal"] == 7)
-            { GoalDict["LastGoal"] = 6; }
-            else { GoalDict["LastGoal"] = GoalDict["LastGoal"] + 1; }
-
-            WriteGoalProgress();
-
-            GoalDict["FirstEver"] = 1;
-            winScreenShow = true;
-            Time.timeScale = 0.0f;
-            
+            case (0):
+            case (1):
+            case (2):
+            case (3):
+            case (4):
+            case (5):
+            case (8):
+                lastGoal += 1;
+                break;
+            case (6):
+                lastGoal = 8;
+                break;
+            case (7):
+                lastGoal = 6;
+                break;
+            default:
+                lastGoal = 9;
+                break;
         }
     }
 
@@ -301,37 +351,27 @@ public class GameBehavior : MonoBehaviour
     // erase all game progress and start over
     private void ResetGame()
     {
-        GoalDict["FirstEver"] = 1;
-        GoalDict["BalanceEarth"] = 50;
-        GoalDict["LastHealth"] = 100;
-        GoalDict["CurrentPlace"] = 0;
-        GoalDict["LastGoal"] = 0;
-        GoalDict["TestTubes"] = 6;
-        GoalDict["SolarPanels"] = 0;
-        GoalDict["Batteries"] = 0;
-        GoalDict["CO2"] = 0;
-        GoalDict["Argon"] = 0;
-        GoalDict["N2"] = 0;
-        GoalDict["O2"] = 0;
-        GoalDict["Methane"] = 0;
-        GoalDict["Samples"] = 0;
-        GoalDict["H2O"] = 0;
+        FirstEver = 1;
+        balance_earth = 50;
+        health_spy = 100;
+        currentplace = 0;
+        lastGoal = 0;
+        TestTubes = 6;
+        solar_panels = 0;
+        batteries = 0;
+        co2 = 0;
+        argon = 0;
+        n2 = 0;
+        o2 = 0;
+        methane = 0;
+        h2o = 0;
         WriteGoalProgress();
         SceneManager.LoadScene(0);
     }
 
-    public void ForceGoalClear()
-    {
-        target01_collected = 0;
-        target01_goal = 0;
-        target02_collected = 0;
-        target02_goal = 0;
-        CheckWinCondition();
-    }
-
     public void GoToTimeMachine()
     {
-        if (GoalDict["LastGoal"] < 2)
+        if (lastGoal < 2)
         {
             labelText.text = "The time machine isn't working yet...";
         }
@@ -372,9 +412,11 @@ public class GameBehavior : MonoBehaviour
         {
             int change = (int) balance_earth - (int) value;
             balance_earth = value;
+
+
             if (balance_earth <= 0 | balance_earth >= 100)
             {
-                if(GoalDict["LastGoal"] < 5){ 
+                if(lastGoal < 5){ 
                 //Change balance earth model to be in less extreme ranges
                     if(change > 0){balance_earth  = 5;}
                     else{balance_earth=95;}
@@ -395,158 +437,210 @@ public class GameBehavior : MonoBehaviour
         }
     }
 
-    public uint ProgressPoint
-    { get { return GoalDict["LastGoal"]; } }
+    public int ProgressPoint
+    { get { return lastGoal; } }
 
-    public uint SolarPanels
+    public int SolarPanels
     {
-        get { return GoalDict["SolarPanels"]; }
+        get { return solar_panels; }
         set
         {
-            GoalDict["SolarPanels"] = value;
+            solar_panels = value;
 
             if (target01 == "solar panels")
             {
-                if (value > target01_goal)
-                { labelText.text = "You don't need any more solar panels!"; }
-
-                target01_collected = Math.Min(value, target01_goal);
+                target01_collected = value;
                 labelText.text = ItemCollectionMessages(2);
-
-                if (labelText.text == "All done!")
-                { CheckWinCondition(); }
-            }
+             }
         }
     }
 
-    public uint Batteries
+    public int Batteries
     {
-        get { return GoalDict["Batteries"]; }
+        get { return batteries; }
         set
         {
-            GoalDict["Batteries"] = value;
+            batteries = value;
 
             if (target02 == "batteries")
             {
-                if (value > target02_goal)
-                { labelText.text = "You don't need any more batteries!"; }
-
-                target02_collected = Math.Min(value, target02_goal);
+                target02_collected = value;
                 labelText.text = ItemCollectionMessages(2);
-
-                if (labelText.text == "All done!")
-                { CheckWinCondition(); }
             }
 
         }
     }
 
-    public uint H2O
+    public int H2O
     {
-        get { return GoalDict["H2O"]; }
+        get { return h2o; }
         set
         {
+            h2o = value;
 
-            GoalDict["H2O"] = value;
-            GoalDict["Samples"] = SumOfGasses();
-            target01_collected = SumOfGasses();
-            CheckWinCondition();
+            if (target01 == "air samples")
+            { 
+                target01_collected = SumOfGasses();
+                target02_collected = target01_goal
+                    - target01_collected;
+                labelText.text = ItemCollectionMessages(1);
+
+                if (lastGoal > 3 && earthPanel.activeSelf)
+                {
+                    InventoryLabel = GameObject.Find("quantity_H2O")
+                        .GetComponent<Text>();
+
+                    InventoryLabel.text = string.Format("{0}/1",
+                            value);
+                }
+            }
         }
     }
 
-    public uint CO2
+    public int CO2
     {
-        get { return GoalDict["CO2"]; }
+        get { return co2; }
         set
         {
-            GoalDict["CO2"] = value;
-            GoalDict["Samples"] = SumOfGasses();
-            target01_collected = SumOfGasses();
-            CheckWinCondition();
+            co2 = value;
+
+            if (target01 == "air samples")
+            {
+                target01_collected = SumOfGasses();
+                target02_collected = target01_goal
+                    - target01_collected;
+                labelText.text = ItemCollectionMessages(1);
+                if (lastGoal > 3 && earthPanel.activeSelf)
+                {
+                    InventoryLabel = GameObject.Find("quantity_CO2")
+                        .GetComponent<Text>();
+
+                    InventoryLabel.text = string.Format("{0}/1",
+                            value);
+                }
+            }
 
         }
     }
 
-    public uint Argon
+    public int Argon
     {
-        get { return GoalDict["Argon"]; }
+        get { return argon; }
         set
         {
-            GoalDict["Argon"] = value;
-            GoalDict["Samples"] = SumOfGasses();
-            target01_collected = SumOfGasses();
-            CheckWinCondition();
+            argon = value;
+
+            if (target01 == "air samples")
+            {
+                target01_collected = SumOfGasses();
+                target02_collected = target01_goal
+                    - target01_collected;
+                labelText.text = ItemCollectionMessages(1);
+
+                if (lastGoal > 3 && earthPanel.activeSelf)
+                {
+                    InventoryLabel = GameObject.Find("quantity_Argon")
+                        .GetComponent<Text>();
+
+                    InventoryLabel.text = string.Format("{0}/1",
+                            value);
+                }
+            }
 
         }
     }
 
-    public uint N2
+    public int N2
     {
-        get { return GoalDict["N2"]; }
+        get { return n2; }
         set
         {
-            GoalDict["N2"] = value;
-            GoalDict["Samples"] = SumOfGasses();
-            target01_collected = SumOfGasses();
-            CheckWinCondition();
+            n2 = value;
+
+            if (target01 == "air samples")
+            {
+                target01_collected = SumOfGasses();
+                target02_collected = target01_goal
+                    - target01_collected;
+                labelText.text = ItemCollectionMessages(1);
+
+                if (lastGoal > 3 && earthPanel.activeSelf)
+                {
+                    InventoryLabel = GameObject.Find("quantity_N2")
+                        .GetComponent<Text>();
+
+                    InventoryLabel.text = string.Format("{0}/1",
+                            value);
+                }
+            }
 
         }
     }
 
-    public uint Methane
+    public int Methane
     {
-        get { return GoalDict["Methane"]; }
+        get { return methane; }
         set
         {
-            GoalDict["Methane"] = value;
-            GoalDict["Samples"] = SumOfGasses();
-            target01_collected = SumOfGasses(); 
-            CheckWinCondition();
+            methane = value;
+
+            if(target01 == "air samples")
+            {
+                target01_collected = SumOfGasses();
+                target02_collected = target01_goal
+                    - target01_collected;
+                labelText.text = ItemCollectionMessages(1);
+                if (lastGoal > 3 && earthPanel.activeSelf)
+                {
+                    InventoryLabel = GameObject.Find("quantity_Methane")
+                        .GetComponent<Text>();
+
+                    InventoryLabel.text = string.Format("{0}/1",
+                            value);
+                }
+            }
         }
     }
 
-
-    public uint O2
+    public int O2
     {
-        get { return GoalDict["O2"]; }
+        get { return o2; }
         set
         {
-            GoalDict["O2"] = value;
-            GoalDict["Samples"] = SumOfGasses();
-            target01_collected = SumOfGasses();
-            CheckWinCondition();
+            o2 = value;
 
+            if (target01 == "air samples")
+            {
+                target01_collected = SumOfGasses();
+                target02_collected = target01_goal
+                    - target01_collected;
+                labelText.text = ItemCollectionMessages(1);
+
+                if (lastGoal > 3 && earthPanel.activeSelf)
+                {
+                    InventoryLabel = GameObject.Find("quantity_O2")
+                        .GetComponent<Text>();
+
+                    InventoryLabel.text = string.Format("{0}/1",
+                            value);
+                }
+            }
         }
-
     }
 
     public uint CurrentPlace
     {
-        get { return GoalDict["CurrentPlace"]; }
+        get { return currentplace; }
         set
         {
-            GoalDict["CurrentPlace"] = value;
-        }
-    }
-
-    public uint FirstEver
-    {
-        get { return GoalDict["FirstEver"]; }
-        set
-        {
-            GoalDict["FirstEver"] = value;
+            currentplace = value;
         }
     }
 
     // function for getting a total of collected samples.
-    private uint SumOfGasses()
+    public int SumOfGasses()
     {
-        return (GoalDict["Methane"] +
-            GoalDict["CO2"] +
-            GoalDict["H2O"] +
-            GoalDict["Argon"] +
-            GoalDict["O2"] +
-            GoalDict["N2"]);
+        return methane + co2 + h2o + argon + o2 + n2;
     }
 
     // Save current progress for next scene load
@@ -557,9 +651,24 @@ public class GameBehavior : MonoBehaviour
 
         if (SceneManager.GetSceneByName("Lab").isLoaded ||
             SceneManager.GetSceneByName("outer_2100").isLoaded)
-        { GoalDict["CurrentPlace"] = 0; }
+        { currentplace = 0; }
         else if (SceneManager.GetSceneByName("ca2020").isLoaded)
-        { GoalDict["CurrentPlace"] = 1; }
+        { currentplace = 1; }
+
+        GoalDict["CurrentPlace"] = currentplace;
+        GoalDict["FirstEver"] = FirstEver;
+        GoalDict["BalanceEarth"] = balance_earth;
+        GoalDict["LastGoal"] = (uint) lastGoal;
+        GoalDict["TestTubes"] = (uint) TestTubes;
+        GoalDict["SolarPanels"] = (uint) solar_panels;
+        GoalDict["Batteries"] = (uint) batteries;
+        GoalDict["CO2"] = (uint) co2;
+        GoalDict["Argon"] = (uint) Argon;
+        GoalDict["N2"] = (uint) n2;
+        GoalDict["O2"] = (uint) o2;
+        GoalDict["Methane"] = (uint) methane;
+        GoalDict["H2O"] = (uint)h2o;
+        GoalDict["Samples"] = (uint) SumOfGasses();
 
         // saving progress
         try
@@ -579,18 +688,18 @@ public class GameBehavior : MonoBehaviour
     {
 
         Debug.Log(string.Format("The goal flag is now {0}",
-            GoalDict["LastGoal"]));
+            lastGoal));
 
-        switch (GoalDict["LastGoal"])
+        switch (lastGoal)
         {
             case (0):
                 target01 = "solar panels";
-                target01_collected = GoalDict["SolarPanels"];
+                target01_collected = solar_panels;
                 target01_goal = 2;
                 target01_imageIdx = 0;
 
                 target02 = "batteries";
-                target02_collected = GoalDict["Batteries"];
+                target02_collected = Batteries;
                 target02_goal = 3;
                 target02_imageIdx = 1;
 
@@ -611,12 +720,12 @@ public class GameBehavior : MonoBehaviour
 
             case (1):
                 target01 = "solar panels";
-                target01_collected = GoalDict["SolarPanels"];
+                target01_collected = SolarPanels;
                 target01_goal = 2;
                 target01_imageIdx = 0;
 
                 target02 = "batteries";
-                target02_collected = GoalDict["Batteries"];
+                target02_collected = Batteries;
                 target02_goal = 3;
                 target02_imageIdx = 1;
 
@@ -661,7 +770,7 @@ public class GameBehavior : MonoBehaviour
             case (3):
                 target01 = "air samples";
                 target01_collected = SumOfGasses();
-                target01_goal = 6;
+                target01_goal = 0;
                 target01_imageIdx = 3;
 
                 target02 = "talk to Rachel";
@@ -693,8 +802,7 @@ public class GameBehavior : MonoBehaviour
                 target02_imageIdx = 2;
 
                 labelText.text = "MISSION TASK: "
-                    + "Talk with Rachel about "
-                    + "the simulation results.";
+                    + "Experiement with the earth balance simulator.";
 
                 WinMessage = "Mission One: Task 3 of 3 Complete! " +
                     "Talk to Rachel about what to do next. " +
@@ -807,7 +915,7 @@ public class GameBehavior : MonoBehaviour
                 labelText.text = "CONGRATS! You finished the game demo!";
                 WinMessage = "Click to reset the game.";
                 LoseMessage = "Click to reset the game.";
-                winScreenShow = true;
+                CheckWinCondition();
                 break;
         }
 
@@ -823,12 +931,15 @@ public class GameBehavior : MonoBehaviour
     {
         string message = labelText.text;
 
-        int target01_remaining = (int) target01_goal
-            - (int) target01_collected;
+        int target01_remaining = target01_goal
+            - target01_collected;
 
         if (targetCount == 1)
         {
-            if (target01_remaining > 1)
+            if ((lastGoal == 6 || lastGoal == 3)
+                && SumOfGasses() == 0)
+            { CheckWinCondition(); }
+            else if (target01_remaining > 1)
             {
                 message = string.Format("Nice! Only {0} {1} left to get.",
                     target01_remaining, target01);
@@ -838,15 +949,19 @@ public class GameBehavior : MonoBehaviour
                 message = string.Format("Awesome! Get the last {0}!",
                     target01);
             }
-            else if (target01_remaining == 0)
+            else if (target01_remaining <= 0 &&
+                (lastGoal == 2 || lastGoal == 5 || lastGoal == 7))
             {
+                target01_collected = target01_goal;
                 message = "All done!";
+                CheckWinCondition();
             }
+     
         }
         else
         {
-            int target02_remaining = (int)target02_goal
-                - (int)target02_collected;
+            int target02_remaining = target02_goal
+                - target02_collected;
 
             if (target01_remaining > 0 && target02_remaining > 0)
             {
@@ -855,21 +970,24 @@ public class GameBehavior : MonoBehaviour
                     target01_remaining, target01,
                     target02_remaining, target02);
             }
-            else if (target01_remaining == 0 && target02_remaining > 0)
+            else if (target01_remaining <= 0 && target02_remaining > 0)
             {
                 message = string.Format("All {0} collected!"
                     + " {1} {2} left to get.",
                     target01, target02_remaining, target02);
             }
-            else if (target02_remaining == 0 && target01_remaining > 0)
+            else if (target02_remaining <= 0 && target01_remaining > 0)
             {
                 message = string.Format("All {0} collected!"
                     + " {1} {2} left to get.",
                     target02, target01_remaining, target01);
             }
-            else if (target01_remaining == 0 && target02_remaining == 0)
+            else if (target01_remaining <= 0 && target02_remaining <= 0)
             {
+                target01_collected = target01_goal;
+                target02_collected = target02_goal;
                 message = "All done!";
+                CheckWinCondition();
             }
         }
         return message;
@@ -879,7 +997,7 @@ public class GameBehavior : MonoBehaviour
     private void get_instructionsMessages(){
         string instruction = "";
 
-        switch (GoalDict["LastGoal"])
+        switch (lastGoal)
         {
             case (0):
                 string place = whereIsTheSpy();
@@ -928,15 +1046,20 @@ public class GameBehavior : MonoBehaviour
                     " Other parts of California still show healthy signs."+
                     " Please get 6 air samples from there."+
                     "Each of them will look like the following particles below.";
-                    GameObject particle_parent =GameObject.Find("particle_parent");
+                    GameObject particle_parent = GameObject.Find("particle_parent");
                     particle_parent.transform.Find("particle_items").gameObject.SetActive(true);
                 }
                 break;
 
             case (3):
+                instruction = "Great! Come see me with your samples!";
                 break;
 
             case (4):
+                instruction = "Use the simulated earth model in the lab " +
+                    "to see what would happen if there was a high "+"" +
+                    "concentration of a particular type of gas " +
+                    "in the atmosphere.";
                 break;
             
 

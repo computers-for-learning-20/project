@@ -13,7 +13,7 @@ public class ProjectParticle : MonoBehaviour
     public GameObject co2;
 
     public float blastSpeed = 50f;
-    public Atmosphere atm;
+
     
     // Start is called before the first frame update
     void Start()
@@ -66,8 +66,9 @@ public class ProjectParticle : MonoBehaviour
         Rigidbody particleRB = newParticle_item.GetComponent<Rigidbody>();
         particleRB.velocity = this.transform.forward * blastSpeed;
 
-        atm = GameObject.Find("atmosphere").GetComponent<Atmosphere>();
-        atm.count = 0;
+        if (gameManager.SumOfGasses() == 0)
+        { gameManager.CheckWinCondition(); }
+
     }
 
 }

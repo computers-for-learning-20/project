@@ -8288,15 +8288,16 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  target01: solar panels
-  target02: batteries
   spriteArray:
   - {fileID: 21300000, guid: 21be2a85e6a704a058fdd57720ee383a, type: 3}
   - {fileID: 21300000, guid: 056c5cb93b0aa41c29bdfc2598aed525, type: 3}
   - {fileID: 21300000, guid: c3417132e684543b8bc97dd5f6c0b8a5, type: 3}
   - {fileID: 21300000, guid: 7ebad10fcb99740918d5d4fef205148e, type: 3}
+  target01: solar panels
+  target02: batteries
   earthPanel: {fileID: 1666663991677164760}
   instructionsPanel: {fileID: 1666663991677164759}
+  FirstEver: 1
   progressLoaded: 0
 --- !u!4 &845986450
 Transform:
@@ -14531,6 +14532,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4477092957522680919, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6536506378751205484, guid: 589f7a0efbecc4d9983f8857a8f2dc99,
         type: 3}

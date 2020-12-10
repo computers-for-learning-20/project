@@ -57,6 +57,11 @@ public class Atmosphere : MonoBehaviour
         }
     }
 
+    private void OnCollisionExit(Collision collision)
+    {
+        count = 0;
+    }
+
     void change_athmosphere_colors(){
         mesh.material.color = gameManager.EarthGradient.Evaluate(gameManager.BalanceEarth/100f);
         float metallic_val = gameManager.BalanceEarth/100f;

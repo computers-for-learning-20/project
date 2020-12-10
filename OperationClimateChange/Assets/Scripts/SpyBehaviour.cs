@@ -17,14 +17,13 @@ public class SpyBehaviour : MonoBehaviour
     public GameBehavior gameManager;
     public ParticleSystem FireCollision;
     private Rigidbody _rb;
+    private int count = 0;
 
     // List of Particle Types
     private List<string> particles
         = new List<string> { "methane", "h2o", "o2",
             "n2", "argon", "co2"};
 
-    // interator for preventing multiple overlapping collisions
-    private int count = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -102,6 +101,7 @@ public class SpyBehaviour : MonoBehaviour
         {
             gameManager.Batteries += 1;
             count += 1;
+            
         }
 
         else if (collision.gameObject.name == "solar_panel"
@@ -109,6 +109,7 @@ public class SpyBehaviour : MonoBehaviour
         {
             gameManager.SolarPanels +=1;
             count += 1;
+   
         }
 
         else if (collision.gameObject.name == "door_to_lab")
@@ -158,12 +159,11 @@ public class SpyBehaviour : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.name == "battery"
-            || collision.gameObject.name == "battery_small"
-            || collision.gameObject.name == "solar_panel")
+        if (collision.gameObject.name == "solar panels" ||
+            collision.gameObject.name == "battery" ||
+            collision.gameObject.name == "small battery")
         { count = 0; }
     }
-
     void OnParticleCollision(GameObject other){
 
         //Decrease Spy's health if it collides with fire
