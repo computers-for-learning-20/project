@@ -76,6 +76,10 @@ public class GameBehavior : MonoBehaviour
         }
         Debug.Log("game progress loaded");
         progressLoaded = true;
+
+        if(GoalDict["FirstEver"] == 1){
+            instructionsPanel.SetActive(true);
+        }
     }
 
     private void Update()
@@ -265,6 +269,7 @@ public class GameBehavior : MonoBehaviour
             else
             { GoalDict["LastGoal"] += 1; }
 
+            GoalDict["FirstEver"] = 1;
             winScreenShow = true;
             Time.timeScale = 0.0f;
             
@@ -282,6 +287,7 @@ public class GameBehavior : MonoBehaviour
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
         Time.timeScale = 1.0f;
+        GoalDict["FirstEver"] = 0;
     }
 
     // erase all game progress and start over
@@ -910,8 +916,12 @@ public class GameBehavior : MonoBehaviour
             case (0):
                 string place = whereIsTheSpy();
                 instruction = string.Format("Welcome spy! You are in the {0}", place);
-                instruction +=" and I need your help to build the time-travel machine."+
-                            " Please find 2 solar panels and 3 baterries similar to the pictures below.";
+                instruction += " Remember: To move use the arrow keys."+
+                    " If you wan to go faster, use the R key."+
+                    " To close this windown, just press the (?) button."+
+                    " The required tasks for any mission appear at the lower bar. But no worries,"+
+                    "I'm also here for any help you need."+
+                    "For this mission, find 2 solar panels and 3 baterries similar to the pictures below.";
                 foreach (string item in new List<string> { "solar_panel_icon", "battery_icon"})
                 {
                     Image img = GameObject.Find(item).GetComponent<Image>();
@@ -941,7 +951,7 @@ public class GameBehavior : MonoBehaviour
                 Image img = GameObject.Find("time_machine_icon").GetComponent<Image>();
                 img.enabled = true;}
                 else if (SceneManager.GetSceneByName("TimeTravelInterface").isLoaded){
-                instruction = "In the Where button choose California, and in the Whene button choose 2020"+
+                instruction = "In the Where button choose California, and in the When button choose 2020"+
                     "The mission is to get 6 air samples from there. Be careful with the fires! Save travels friend!";
                 Image img = GameObject.Find("time_machine_icon").GetComponent<Image>();
                 img.enabled = false;}
