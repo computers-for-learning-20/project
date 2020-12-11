@@ -37,4 +37,4 @@ To create a prototype of our larger learning game that includes:
 
 * Though our ideas are fully formed and immersive, this project represents a steep learning curve for us from programming assignments earlier in the course. We recognize there are several bugs remaining in the most recent build. 
   * **If you experience difficulties, often taking actions that trigger updates** - like travelling from one scene to the next or collecting extra objects can "unstick" the game.
-  * In our video, we (or Jessica mostly after editing out my cursing), were playing from the Unity Editor. Only afterward, did we notice we can build and **run from the OperationClimateChange.app file.** This is strongly reccomended. It isn't perfect, but it is much smoother!
+  * In our video, we (or Jessica mostly after editing out Kelsey's cursing), were playing from the Unity Editor. Only afterward, did we notice we can build and **run from the OperationClimateChange.app file.** This is strongly reccomended. It isn't perfect, but it is much smoother!
