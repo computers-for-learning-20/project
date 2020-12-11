@@ -17,7 +17,6 @@ public class SpyBehaviour : MonoBehaviour
     public GameBehavior gameManager;
     public ParticleSystem FireCollision;
     private Rigidbody _rb;
-    private int count = 0;
 
     // List of Particle Types
     private List<string> particles
@@ -95,20 +94,16 @@ public class SpyBehaviour : MonoBehaviour
     void OnCollisionEnter(Collision collision){
 
         // Check for items to collect
-        if ((collision.gameObject.name == "battery"
+        if (collision.gameObject.name == "battery"
             || collision.gameObject.name == "battery_small")
-            && count == 0)
         {
             gameManager.Batteries += 1;
-            count += 1;
             
         }
 
-        else if (collision.gameObject.name == "solar_panel"
-            && count == 0)
+        else if (collision.gameObject.name == "solar_panel")
         {
             gameManager.SolarPanels +=1;
-            count += 1;
    
         }
 
@@ -154,16 +149,8 @@ public class SpyBehaviour : MonoBehaviour
                     break;
             }
         }
-
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.name == "solar panels" ||
-            collision.gameObject.name == "battery" ||
-            collision.gameObject.name == "small battery")
-        { count = 0; }
-    }
     void OnParticleCollision(GameObject other){
 
         //Decrease Spy's health if it collides with fire

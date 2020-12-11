@@ -1,8 +1,8 @@
 FirstEver 1
 LastHealth 100
-BalanceEarth 60
+BalanceEarth 50
 CurrentPlace 0
-LastGoal 8
+LastGoal 9
 TestTubes 6
 SolarPanels 0
 Batteries 0

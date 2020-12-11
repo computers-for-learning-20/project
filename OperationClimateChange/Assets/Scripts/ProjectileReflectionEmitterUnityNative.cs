@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+
 /*
  * Projectile reflection demonstration in Unity 3D
  * 
@@ -12,7 +13,7 @@ using UnityEngine;
 public class ProjectileReflectionEmitterUnityNative : MonoBehaviour
 {
     public int maxReflectionCount = 5;
-    public float maxStepDistance = 5;
+    public float maxStepDistance = 5;   
 
     public LineRenderer line;
     void Start()
@@ -31,7 +32,7 @@ public class ProjectileReflectionEmitterUnityNative : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit))
         {
-            if (hit. collider)
+            if (hit.collider)
             {
                 
                 Vector3 direction = Vector3.Reflect(transform.forward, hit.normal);
@@ -42,17 +43,6 @@ public class ProjectileReflectionEmitterUnityNative : MonoBehaviour
         else {line.SetPosition(1, transform.forward*10);}
     }
     
-    void OnDrawGizmos()
-    {
-        Handles.color = Color.red;
-        Handles.ArrowHandleCap(0, this.transform.position + this.transform.forward * 0.25f, 
-        this.transform.rotation, 0.5f, EventType.Repaint);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.transform.position, 0.25f);
-
-        DrawPredictedReflectionPattern(this.transform.position + this.transform.forward * 0.75f, 
-        this.transform.forward, maxReflectionCount);
-    }
 
     private void DrawPredictedReflectionPattern(Vector3 position, Vector3 direction, int reflectionsRemaining)
     {

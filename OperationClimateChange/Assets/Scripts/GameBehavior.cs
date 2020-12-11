@@ -49,8 +49,11 @@ public class GameBehavior : MonoBehaviour
     private int lastGoal;
 
     private Text InventoryLabel;
-    private Image InventoryImage;
-    
+    private Image InventoryImage0;
+    private Text InventoryLabel0;
+    private Image InventoryImage1;
+    private Text InventoryLabel1;
+
     public Sprite[] spriteArray;
     public string target01 = "solar panels";
     public string target02 = "batteries";
@@ -186,36 +189,36 @@ public class GameBehavior : MonoBehaviour
                 warpLabel.color = new Color(100f, 227f, 255f, 1f);
             }
 
-            InventoryImage = GameObject.Find("Inventory0Image")
+            InventoryImage0 = GameObject.Find("Inventory0Image")
             .GetComponent<Image>();
-            InventoryLabel = GameObject.Find("Inventory0Text")
+            InventoryLabel0 = GameObject.Find("Inventory0Text")
                     .GetComponent<Text>();
 
-            InventoryImage.sprite = spriteArray[target01_imageIdx];
+            InventoryImage0.sprite = spriteArray[target01_imageIdx];
 
             if (target01_collected > 0)
             {
-                InventoryImage.enabled = true;
+                InventoryImage0.enabled = true;
 
-                InventoryLabel.text = string.Format("{0}/{1}",
+                InventoryLabel0.text = string.Format("{0}/{1}",
                     target01_collected, target01_goal);
             }
             else
             {
-                InventoryImage.enabled = false;
-                InventoryLabel.text = "";
+                InventoryImage0.enabled = false;
+                InventoryLabel0.text = "";
             }
 
-            InventoryImage = GameObject.Find("Inventory1Image")
+            InventoryImage1 = GameObject.Find("Inventory1Image")
                 .GetComponent<Image>();
-            InventoryLabel = GameObject.Find("Inventory1Text")
+            InventoryLabel1 = GameObject.Find("Inventory1Text")
                 .GetComponent<Text>();
 
-            InventoryImage.sprite = spriteArray[target02_imageIdx];
+            InventoryImage1.sprite = spriteArray[target02_imageIdx];
 
             if (target02_collected > 0)
             {
-                InventoryImage.enabled = true;
+                InventoryImage1.enabled = true;
 
                 int denom = target02_goal;
                 if (target02 == "test tubes")
@@ -223,13 +226,13 @@ public class GameBehavior : MonoBehaviour
                 else if (target02 == "air samples")
                 { denom = target02_collected;}
 
-                InventoryLabel.text = string.Format("{0}/{1}",
+                InventoryLabel1.text = string.Format("{0}/{1}",
                     target02_collected, denom);
             }
             else
             {
-                InventoryImage.enabled = false;
-                InventoryLabel.text = "";
+                InventoryImage1.enabled = false;
+                InventoryLabel1.text = "";
             }
 
 
