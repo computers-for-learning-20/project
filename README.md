@@ -29,7 +29,7 @@ To create a prototype of our larger learning game that includes:
 
 ## Implementation Notes:
 
-* We made use of a large number of handmaade, modified and prefabricated free assests from the Unity asset store. In addition to building fire, smoke, the sun, earth (complete with atmosphere) and many other textures and objects, we also notibly used:
+* We made use of a large number of handmade, modified and prefabricated free assests from the Unity asset store. In addition to building fire, smoke, the sun, earth (complete with atmosphere) and many other textures and objects, we also notibly used:
   * Recon Boy (human avatar): https://assetstore.unity.com/packages/3d/characters/recon-boy-12208
   * A moderately modded Jellyfish Girl (human avatar): https://assetstore.unity.com/packages/3d/characters/character-model-jelly-fish-girl-47735
   * Sci-Fi Stylized Modular Pack: https://assetstore.unity.com/packages/3d/environments/sci-fi/sci-fi-styled-modular-pack-82913
