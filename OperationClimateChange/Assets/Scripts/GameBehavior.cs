@@ -1007,10 +1007,10 @@ public class GameBehavior : MonoBehaviour
                 instruction = string.Format("Welcome spy! You are in the {0}", place);
                 instruction += " Remember: To move use the arrow keys."+
                     " If you wan to go faster, use the R key."+
-                    " To close this windown, just press the (?) button."+
+                    " To close this window, just press the (?) button."+
                     " The required tasks for any mission appear at the lower bar. But no worries,"+
                     "I'm also here for any help you need."+
-                    "For this mission, find 2 solar panels and 3 baterries similar to the pictures below.";
+                    "For this mission, find 2 solar panels and 3 batteries similar to the pictures below.";
                 foreach (string item in new List<string> { "solar_panel_icon", "battery_icon"})
                 {
                     Image img = GameObject.Find(item).GetComponent<Image>();
@@ -1045,7 +1045,7 @@ public class GameBehavior : MonoBehaviour
                 Image img = GameObject.Find("time_machine_icon").GetComponent<Image>();
                 img.enabled = false;}
                 else if(SceneManager.GetSceneByName("ca2020").isLoaded){
-                    instruction = "You are in California of 2020. Some parts are severly damaged by the extreme wildfires."+
+                    instruction = "You are in California of 2020. Some parts are severely damaged by the extreme wildfires."+
                     " Other parts of California still show healthy signs."+
                     " Please get 6 air samples from there."+
                     "Each of them will look like the following particles below.";
@@ -1076,7 +1076,7 @@ public class GameBehavior : MonoBehaviour
             case (6):
                 instruction = "Nice work so far! " +
                     "Go test your samples and tell me if " +
-                    "the tempurature balances!";
+                    "the temperature balances!";
                 break;
 
             case (7):
@@ -1097,7 +1097,7 @@ public class GameBehavior : MonoBehaviour
                     " there to be so much carbon dioxide and methane " +
                     "in our atmosphere now days..." +
                     "Great job beating the demo game! That's all for now, " +
-                    "but there is lots of adventures to come!";
+                    "but there is lots of adventure to come!";
                 break;
         }
         Text instruction_component = GameObject.Find("instructions")

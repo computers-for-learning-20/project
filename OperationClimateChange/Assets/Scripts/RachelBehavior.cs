@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,7 +25,7 @@ public class RachelBehavior : MonoBehaviour
     public Toggle nitrogen;
     public Toggle argon;
 
-    // interator for preventing multiple overlapping collisions
+    // iterator for preventing multiple overlapping collisions
     private int count = 0;
 
     // Start is called before the first frame update
